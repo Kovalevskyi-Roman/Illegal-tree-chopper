@@ -17,11 +17,10 @@ class TileMap:
 
             self.tiles = tuple(tiles)
 
-    def draw(self, surface: pygame.Surface) -> None:
+    def draw(self, surface: pygame.Surface, offset: pygame.Vector2) -> None:
         for row in range(len(self.tiles)):
             for column in range(len(self.tiles[row])):
-                surface.blit(
-                    TileManager.tile_textures[self.tiles[row][column]],
-                             (column * TileManager.tile_size, row * TileManager.tile_size)
-                )
+                tile_texture = TileManager.tile_textures[self.tiles[row][column]]
+                tile_position = pygame.Vector2(column * TileManager.TILE_SIZE,row * TileManager.TILE_SIZE)
 
+                surface.blit(tile_texture, tile_position - offset)

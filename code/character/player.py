@@ -1,13 +1,13 @@
 import pygame
 
+from .character import Character
 
-class Player:
+
+class Player(Character):
     def __init__(self) -> None:
-        self.health: int = 100
+        super().__init__()
 
-        self.rect: pygame.FRect = pygame.FRect(0, 0, 32, 32)
         self.move_speed: float = 4
-        self.direction: pygame.Vector2 = pygame.Vector2(0, 0)
 
     def update(self) -> None:
         keys: pygame.key.ScancodeWrapper = pygame.key.get_pressed()
@@ -25,5 +25,5 @@ class Player:
         if self.direction.length():
             self.rect.topleft += self.direction.normalize() * self.move_speed
 
-    def draw(self, surface: pygame.Surface) -> None:
-        pygame.draw.rect(surface, "white", self.rect)
+    def draw(self, surface: pygame.Surface, offset: pygame.Vector2) -> None:
+        pygame.draw.rect(surface, "white", [self.rect.topleft - offset, self.rect.size])
