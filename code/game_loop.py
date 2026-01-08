@@ -2,6 +2,7 @@ import pygame
 
 from player import Player
 from window import Window
+from level import TileMap
 
 
 class GameLoop:
@@ -9,6 +10,7 @@ class GameLoop:
         self.window = window
 
         self.player = Player()
+        self.tile_map = TileMap("test")
 
         self.running: bool = True
 
@@ -24,6 +26,7 @@ class GameLoop:
 
     def draw(self) -> None:
         self.window.clear("#000000")
+        self.tile_map.draw(self.window.surface)
         self.player.draw(self.window.surface)
         pygame.display.update()
 
