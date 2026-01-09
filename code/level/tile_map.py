@@ -10,7 +10,7 @@ class TileMap:
         self.load(file_name)
 
     def load(self, file_name: str) -> None:
-        with open(f"../resources/data/levels/{file_name}.json") as file:
+        with open(f"../resources/data/levels/{file_name}.json", "r") as file:
             tiles: list[tuple[int, ...]] = list()
             for layer in json.load(file).get("tile_map"):
                 tiles.append(tuple(layer))

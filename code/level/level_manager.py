@@ -24,10 +24,9 @@ class LevelManager:
                 continue
 
             if obj.suffix == ".json":
-                level_name: str = obj.name.removesuffix(obj.suffix)
                 self.levels.setdefault(
-                    level_name,
-                    Level(level_name, self.player, self.camera, self)
+                    obj.stem,
+                    Level(obj.stem, self.player, self.camera, self)
                 )
 
         print(f"Loaded {len(self.levels)} levels")

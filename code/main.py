@@ -1,5 +1,7 @@
 import pygame
 
+from object import GameObject
+
 pygame.init()
 
 from window import Window
@@ -11,6 +13,7 @@ def main() -> None:
     pygame.display.set_caption("Симулятор пьяного украинского лесоруба")
 
     TileManager.init()
+    GameObject.load_textures()
 
     game_loop: GameLoop = GameLoop(window)
     game_loop.run()
