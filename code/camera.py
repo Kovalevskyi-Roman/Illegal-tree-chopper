@@ -27,8 +27,10 @@ class Camera:
             round(self.target.rect.centery - (Window.SIZE[1] // 2) - self.offset.y)
         )
 
-        if distance.length() > self.__box_size and self.target.direction:
-            self.offset += distance * self.__smoothness
+        self.offset += distance * self.__smoothness
 
-        elif not self.target.direction:
-            self.offset += distance * self.__smoothness
+        # if distance.length() > self.__box_size and self.target.direction:
+        #     self.offset += distance * self.__smoothness
+        #
+        # elif not self.target.direction:
+        #     self.offset += distance * self.__smoothness

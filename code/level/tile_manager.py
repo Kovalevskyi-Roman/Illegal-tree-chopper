@@ -3,7 +3,7 @@ import pygame
 
 
 class TileManager:
-    TILE_SIZE: int = 32
+    TILE_SIZE: int = 48
     tile_textures: tuple[pygame.Surface, ...] | None = None
 
     @classmethod

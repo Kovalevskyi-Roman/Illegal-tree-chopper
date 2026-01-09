@@ -1,9 +1,9 @@
 import pygame
 
 from camera import Camera
-from character.player import Player
+from character import Player
 from window import Window
-from level import TileMap
+from level import LevelManager
 
 
 class GameLoop:
@@ -12,7 +12,7 @@ class GameLoop:
 
         self.player = Player()
         self.camera = Camera(self.player)
-        self.tile_map = TileMap("test")
+        self.level_manager = LevelManager(self.player, self.camera)
 
         self.running: bool = True
 
@@ -24,13 +24,11 @@ class GameLoop:
 
     def update(self) -> None:
         self.window.clock.tick(Window.FPS)
-        self.camera.update()
-        self.player.update()
+        self.level_manager.update_level()
 
     def draw(self) -> None:
         self.window.clear("#000000")
-        self.tile_map.draw(self.window.surface, self.camera.offset)
-        self.player.draw(self.window.surface, self.camera.offset)
+        self.level_manager.draw_level(self.window.surface)
         pygame.display.update()
 
     def run(self) -> None:

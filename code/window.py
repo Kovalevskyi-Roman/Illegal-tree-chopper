@@ -2,7 +2,7 @@ import pygame
 
 
 class Window:
-    SIZE: tuple[int, int] = (1120, 630)
+    SIZE: tuple[int, int] = (1280, 720)
     FPS: int = 60
     events: tuple[pygame.event.Event, ...] = ()
 
