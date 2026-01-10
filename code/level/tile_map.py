@@ -10,6 +10,9 @@ class TileMap:
         self.tiles: tuple[tuple[int, ...]] | None = None
         self.load(file_name)
 
+        self.height: int = len(self.tiles) * TileManager.TILE_SIZE
+        self.width: int = len(self.tiles[0]) * TileManager.TILE_SIZE
+
     def load(self, file_name: str) -> None:
         with open(f"../resources/data/levels/{file_name}.json", "r") as file:
             tiles: list[tuple[int, ...]] = list()

@@ -30,7 +30,18 @@ class Level:
 
     def update(self) -> None:
         self.player.update()
+        # border
+        if self.player.rect.x < 0:
+            self.player.rect.x = 0
+        if self.player.rect.y < 0:
+            self.player.rect.y = 0
+
+        if self.player.rect.right > self.tile_map.width:
+            self.player.rect.right = self.tile_map.width
+        if self.player.rect.bottom > self.tile_map.height:
+            self.player.rect.bottom = self.tile_map.height
+
         self.camera.update()
 
         for game_object in self.game_objects:
-            GameObject.update(game_object, player=self.player, level_manager=self.level_manager)
+            GameObject.update(game_object, player=self.player, camera=self.camera, level_manager=self.level_manager)

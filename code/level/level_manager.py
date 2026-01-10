@@ -12,7 +12,7 @@ class LevelManager:
         self.player = player
         self.camera = camera
 
-        self.current_level: str = "test"
+        self.current_level: str = "home"
         self.levels: dict[str, Level] = dict()
         self.load_levels()
 

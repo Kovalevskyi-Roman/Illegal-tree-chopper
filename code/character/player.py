@@ -26,4 +26,4 @@ class Player(Character):
             self.rect.topleft += self.direction.normalize() * self.move_speed
 
     def draw(self, surface: pygame.Surface, offset: pygame.Vector2) -> None:
-        pygame.draw.rect(surface, "white", [self.rect.topleft - offset, self.rect.size])
+        pygame.draw.rect(surface, "#aaaaaa", [self.rect.topleft - offset, self.rect.size])
