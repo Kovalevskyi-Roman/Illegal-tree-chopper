@@ -2,6 +2,8 @@ import pygame
 
 from pathlib import Path
 
+from window import Window
+
 
 class GameObject:
     SIZE: int = 32
@@ -31,6 +33,13 @@ class GameObject:
 
     @classmethod
     def draw(cls, surface: pygame.Surface, game_object: dict, offset: pygame.Vector2) -> None:
+        position = pygame.Vector2(game_object.get("data").get("position"))
+        screen_position = position - offset
+
+        if screen_position.x < -cls.SIZE or screen_position.x > Window.SIZE[0] or \
+                screen_position.y < -cls.SIZE or screen_position.y > Window.SIZE[1]:
+            return
+
         texture = cls.textures.get(game_object.get("name"), None)
         if texture is not None:
-            surface.blit(texture, pygame.Vector2(game_object.get("data").get("position")) - offset)
+            surface.blit(texture, screen_position)
