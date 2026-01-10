@@ -4,6 +4,7 @@ import pygame
 class Window:
     SIZE: tuple[int, int] = (1280, 720)
     FPS: int = 60
+    DELTA: float = 1 / FPS
     events: tuple[pygame.event.Event, ...] = ()
 
     def __init__(self) -> None:
