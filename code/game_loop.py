@@ -1,18 +1,14 @@
 import pygame
 
-from camera import Camera
-from character import Player
+from game_state import GameStateManager
 from window import Window
-from level import LevelManager
 
 
 class GameLoop:
     def __init__(self, window: Window) -> None:
         self.window = window
 
-        self.player = Player()
-        self.camera = Camera(self.player)
-        self.level_manager = LevelManager(self.player, self.camera)
+        self.game_state_manager = GameStateManager()
 
         self.running: bool = True
 
@@ -24,11 +20,11 @@ class GameLoop:
 
     def update(self) -> None:
         self.window.clock.tick(Window.FPS)
-        self.level_manager.update_level()
+        self.game_state_manager.update()
 
     def draw(self) -> None:
         self.window.clear("#000000")
-        self.level_manager.draw_level(self.window.surface)
+        self.game_state_manager.draw(self.window.surface)
         pygame.display.update()
 
     def run(self) -> None:
