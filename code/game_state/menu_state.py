@@ -1,5 +1,9 @@
+from ctypes.wintypes import SIZE
+
 import pygame
 
+from ui import Label, Button
+from window import Window
 from .game_state import GameState
 
 
@@ -7,6 +11,71 @@ class MenuState(GameState):
     def __init__(self, game_state_manager: "GameStateManager", *args, **kwargs) -> None:
         super().__init__(game_state_manager, *args, **kwargs)
 
+        self.font_30 = pygame.font.SysFont("Tahoma", 30)
+        self.font_24 = pygame.font.SysFont("Tahoma", 24)
+        self.__caption: Label = Label("Симулятор пьяного лесоруба", self.font_30, "#000000",
+                                      (205, 205, 205, 127))
+
+        self.__play_button: Button = Button(
+            pygame.mouse.get_just_pressed,
+            0,
+            pygame.Rect(-1, 270, 300, 36),
+            pygame.Surface((300, 36), flags=pygame.SRCALPHA),
+            "Играть",
+            self.font_24,
+            "#000000"
+        )
+
+        self.__settings_button: Button = Button(
+            pygame.mouse.get_just_pressed,
+            0,
+            pygame.Rect(-1, 320, 300, 36),
+            pygame.Surface((300, 36), flags=pygame.SRCALPHA),
+            "Настройки",
+            self.font_24,
+            "#000000"
+        )
+
+        self.__quit_button: Button = Button(
+            pygame.mouse.get_just_pressed,
+            0,
+            pygame.Rect(-1, 370, 300, 36),
+            pygame.Surface((300, 36), flags=pygame.SRCALPHA),
+            "Выйти из игры",
+            self.font_24,
+            "#000000"
+        )
+
+        self.__background_image = pygame.image.load("../resources/textures/menu_background.png").convert_alpha()
+        self.__background_image = pygame.transform.scale(self.__background_image, Window.SIZE)
+
     def update(self, *args, **kwargs) -> None:
-        if pygame.key.get_pressed()[pygame.K_SPACE]:
+        if self.__play_button.is_hovered():
+            self.__play_button.texture.fill("#cdcdcd7f")
+        else:
+            self.__play_button.texture.fill("#a0a0a07f")
+        if self.__play_button.is_active():
             self.game_state_manager.change_state(self.game_state_manager.PLAY_STATE)
+
+        if self.__settings_button.is_hovered():
+            self.__settings_button.texture.fill("#cdcdcd7f")
+        else:
+            self.__settings_button.texture.fill("#a0a0a07f")
+        # if self.__settings_button.is_active():
+        #     self.game_state_manager.change_state(self.game_state_manager.SETTING_STATE)
+
+        if self.__quit_button.is_hovered():
+            self.__quit_button.texture.fill("#cdcdcd7f")
+        else:
+            self.__quit_button.texture.fill("#a0a0a07f")
+        if self.__quit_button.is_active():
+            Window.running = False
+            return
+
+    def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:
+        surface.blit(self.__background_image, (0, 0))
+
+        self.__caption.draw(Window.ui_surface, (-1, 90))
+        self.__play_button.draw(Window.ui_surface)
+        self.__settings_button.draw(Window.ui_surface)
+        self.__quit_button.draw(Window.ui_surface)
