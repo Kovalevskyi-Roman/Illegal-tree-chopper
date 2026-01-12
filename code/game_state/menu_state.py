@@ -46,6 +46,16 @@ class MenuState(GameState):
             "#000000"
         )
 
+        self.__editor_button: Button = Button(
+            pygame.mouse.get_just_pressed,
+            0,
+            pygame.Rect(-1, 420, 300, 36),
+            pygame.Surface((300, 36), flags=pygame.SRCALPHA),
+            "Редактор уровней",
+            self.font_24,
+            "#000000"
+        )
+
         self.__background_image = pygame.image.load("../resources/textures/menu_background.png").convert_alpha()
         self.__background_image = pygame.transform.scale(self.__background_image, Window.SIZE)
 
@@ -68,14 +78,22 @@ class MenuState(GameState):
             self.__quit_button.texture.fill("#cdcdcd7f")
         else:
             self.__quit_button.texture.fill("#a0a0a07f")
-        if self.__quit_button.is_active():
+        if self.__quit_button.is_active() or pygame.key.get_just_pressed()[pygame.K_ESCAPE]:
             Window.running = False
             return
 
+        if self.__editor_button.is_hovered():
+            self.__editor_button.texture.fill("#cdcdcd7f")
+        else:
+            self.__editor_button.texture.fill("#a0a0a07f")
+        if self.__editor_button.is_active():
+            self.game_state_manager.change_state(self.game_state_manager.LEVEL_LIST)
+
     def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:
         surface.blit(self.__background_image, (0, 0))
-
         self.__caption.draw(Window.ui_surface, (-1, 90))
+
         self.__play_button.draw(Window.ui_surface)
         self.__settings_button.draw(Window.ui_surface)
         self.__quit_button.draw(Window.ui_surface)
+        self.__editor_button.draw(Window.ui_surface)

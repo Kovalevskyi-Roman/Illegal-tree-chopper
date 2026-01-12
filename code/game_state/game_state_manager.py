@@ -1,18 +1,27 @@
 import pygame
 
-from . import GameState
+from .game_state import GameState
 from .menu_state import MenuState
 from .play_state import PlayState
+
+from .editor import LevelList
+from .editor import Editor
 
 
 class GameStateManager:
     MENU_STATE = MenuState
     PLAY_STATE = PlayState
 
+    LEVEL_LIST = LevelList
+    EDITOR = Editor
+
     def __init__(self) -> None:
         self.GAME_STATES: dict[type, GameState] = {
             self.MENU_STATE: MenuState(self),
-            self.PLAY_STATE: PlayState(self)
+            self.PLAY_STATE: PlayState(self),
+
+            self.LEVEL_LIST: LevelList(self),
+            self.EDITOR: Editor(self)
         }
 
         self.current_state = self.MENU_STATE

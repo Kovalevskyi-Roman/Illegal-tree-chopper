@@ -18,7 +18,8 @@ class Level:
         self.camera = camera
         self.level_manager = level_manager
 
-    def load_game_objects(self, file_name: str) -> list[dict[str, Any]]:
+    @classmethod
+    def load_game_objects(cls, file_name: str) -> list[dict[str, Any]]:
         with open(f"../resources/data/levels/{file_name}.json", "r") as file:
             return json.load(file).get("game_objects")
 

@@ -15,8 +15,7 @@ def main() -> None:
     TileManager.init()
     GameObject.load_textures()
 
-    game_loop: GameLoop = GameLoop(window)
-    game_loop.run()
+    GameLoop(window).run()
 
 if __name__ == '__main__':
     main()
