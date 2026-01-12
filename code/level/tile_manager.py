@@ -4,21 +4,22 @@ import pygame
 
 class TileManager:
     TILE_SIZE: int = 48
+    tiles: tuple[str, ...] = tuple()
     tile_textures: tuple[pygame.Surface, ...] | None = None
 
     @classmethod
     def init(cls) -> None:
-        cls.load_tile_textures()
+        cls.load_tiles()
         cls.scale_to_tile_textures((cls.TILE_SIZE, cls.TILE_SIZE))
 
     @classmethod
-    def load_tile_textures(cls) -> None:
+    def load_tiles(cls) -> None:
         cls.tile_textures = None
         tiles: list[pygame.Surface] = list()
 
         with open("../resources/data/tiles.json", "r") as file:
-            content: list[dict] = json.load(file)
-            for tile in content:
+            cls.tiles = tuple(json.load(file))
+            for tile in cls.tiles:
                 tile_texture = pygame.image.load(f"../resources/textures/tiles/{tile}").convert_alpha()
                 tiles.append(tile_texture)
 
