@@ -15,6 +15,9 @@ class PlayState(GameState):
         self.level_manager = LevelManager(self.player, self.camera)
 
     def update(self, *args, **kwargs) -> None:
+        if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+            self.game_state_manager.change_state(self.game_state_manager.MENU_STATE)
+
         self.level_manager.update_level()
 
     def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:

@@ -17,6 +17,7 @@ class LevelManager:
         self.load_levels()
 
     def load_levels(self) -> None:
+        self.levels.clear()
         path: Path = Path("../resources/data/levels/")
 
         for obj in path.iterdir():
