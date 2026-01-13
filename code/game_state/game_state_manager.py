@@ -21,7 +21,7 @@ class GameStateManager:
             self.PLAY_STATE: PlayState(self),
 
             self.LEVEL_LIST: LevelList(self),
-            self.EDITOR: Editor(self)
+            self.EDITOR: Editor(self),
         }
 
         self.current_state = self.MENU_STATE
