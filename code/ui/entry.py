@@ -46,8 +46,8 @@ class Entry:
 
                 elif event.key == pygame.K_LEFT:
                     self.cursor -= 1
-                    if self.cursor < 0:
-                        self.cursor = 0
+                    if self.cursor < -1:
+                        self.cursor = -1
 
                 elif event.key == pygame.K_RIGHT:
                     self.cursor += 1

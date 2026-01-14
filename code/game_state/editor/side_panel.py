@@ -70,6 +70,7 @@ class SidePanel:
         else:
             self.edit_game_object_btn.texture.fill("#323232")
         if self.edit_game_object_btn.is_active():
+            self.game_state_manager.GAME_STATES.get(self.game_state_manager.DATA_EDITOR).init()
             self.game_state_manager.change_state(self.game_state_manager.DATA_EDITOR)
 
         if self.new_game_object_btn.is_hovered():
