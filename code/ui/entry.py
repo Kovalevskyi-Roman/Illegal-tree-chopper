@@ -11,10 +11,13 @@ class Entry:
         self.texture = texture
         self.font = font
         self.f_color = f_color
-        self.text = text
+        self.text: list[str] = list(text)
 
         self.active: bool = False
         self.cursor: int = -1
+
+    def get_text(self) -> str:
+        return "".join(self.text)
 
     def update(self) -> None:
         mouse_pos = pygame.mouse.get_pos()
@@ -33,12 +36,12 @@ class Entry:
 
         for event in Window.events:
             if event.type == pygame.TEXTINPUT:
-                self.text = self.text[:self.cursor] + event.text + self.text[self.cursor:]
                 self.cursor += 1
+                self.text.insert(self.cursor, event.text)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE and self.text:
-                    self.text = self.text[:self.cursor] + self.text[self.cursor + 1:]
+                    self.text.pop(self.cursor)
                     self.cursor -= 1
 
                 elif event.key == pygame.K_LEFT:
@@ -53,13 +56,11 @@ class Entry:
 
     def draw(self, surface: pygame.Surface) -> None:
         surface.blit(self.texture, self.rect)
+        Label("".join(self.text), self.font, self.f_color).draw(surface, self.rect.topleft)
 
-        label = Label(self.text, self.font, self.f_color)
-        label.draw(surface, self.rect.topleft)
-
-        width = 2
+        width = 0
         if self.text:
-            width += self.font.size(self.text[:self.cursor + 1])[0]
+            width += self.font.size(self.get_text()[:self.cursor + 1])[0]
 
         pygame.draw.rect(
             surface,
