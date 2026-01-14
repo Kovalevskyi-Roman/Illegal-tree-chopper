@@ -6,3 +6,4 @@ from .play_state import PlayState
 
 from .editor import LevelList
 from .editor import Editor
+from .editor import DataEditor

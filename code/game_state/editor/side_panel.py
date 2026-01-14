@@ -29,7 +29,7 @@ class SidePanel:
         self.move_game_object_lbl: Label = Label(f"[M]ove: {self.editor.move_game_object}", font, "#efefef")
         self.snap_to_grid_lbl: Label = Label(f"To [G]rid: {self.editor.snap_to_grid}", font, "#efefef")
 
-        self.new_game_obj_btn: Button = Button(
+        self.new_game_object_btn: Button = Button(
             pygame.mouse.get_just_pressed,
             0,
             pygame.Rect(self.x + 16, 96 + TileManager.TILE_SIZE, self.width - 32, TileManager.TILE_SIZE),
@@ -41,6 +41,16 @@ class SidePanel:
         self.selected_game_obj_name: Label = Label("", font, "#efefef")
         self.selected_game_obj_pos: Label = Label("", font, "#efefef")
 
+        self.edit_game_object_btn: Button = Button(
+            pygame.mouse.get_just_pressed,
+            0,
+            pygame.Rect(self.x + 16, 174 + TileManager.TILE_SIZE * 2, self.width - 32, TileManager.TILE_SIZE),
+            pygame.Surface([self.width - 32, TileManager.TILE_SIZE]),
+            "Edit data",
+            font,
+            "#efefef"
+        )
+
     def update(self) -> None:
         self.move_game_object_lbl.update(f"[M]ove: {self.editor.move_game_object}")
         self.snap_to_grid_lbl.update(f"To [G]rid: {self.editor.snap_to_grid}")
@@ -49,19 +59,25 @@ class SidePanel:
             self.safe_tile_del_btn.texture.fill("#545454")
         else:
             self.safe_tile_del_btn.texture.fill("#323232")
-
         if self.safe_tile_del_btn.is_active():
             self.editor.safe_tile_deleting = not self.editor.safe_tile_deleting
             self.safe_tile_del_btn.text = f"Safe del: {self.editor.safe_tile_deleting}"
             self.safe_tile_del_btn.update_render()
             self.safe_tile_del_btn.texture.fill("#787878")
 
-        if self.new_game_obj_btn.is_hovered():
-            self.new_game_obj_btn.texture.fill("#545454")
+        if self.edit_game_object_btn.is_hovered():
+            self.edit_game_object_btn.texture.fill("#545454")
         else:
-            self.new_game_obj_btn.texture.fill("#323232")
+            self.edit_game_object_btn.texture.fill("#323232")
+        if self.edit_game_object_btn.is_active():
+            self.game_state_manager.change_state(self.game_state_manager.DATA_EDITOR)
 
-        if self.new_game_obj_btn.is_active() and self.editor.selected_game_object == -1:
+        if self.new_game_object_btn.is_hovered():
+            self.new_game_object_btn.texture.fill("#545454")
+        else:
+            self.new_game_object_btn.texture.fill("#323232")
+
+        if self.new_game_object_btn.is_active() and self.editor.selected_game_object == -1:
             self.editor.game_objects.append(
                 {
                     "name": "null",
@@ -74,17 +90,17 @@ class SidePanel:
             self.editor.move_game_object = True
 
     def draw(self) -> None:
-        pygame.draw.rect(Window.ui_surface, (99, 99, 99, 180),
-                         [self.x, 0, self.width, Window.SIZE[1]])
-
+        pygame.draw.rect(
+            Window.ui_surface, (99, 99, 99, 180), [self.x, 0, self.width, Window.SIZE[1]]
+        )
         Window.ui_surface.blit(
-            TileManager.tile_textures[self.editor.selected_tile],
-            [self.x + 16, 16]
+            TileManager.tile_textures[self.editor.selected_tile],[self.x + 16, 16]
         )
         self.safe_tile_del_btn.draw(Window.ui_surface)
         self.move_game_object_lbl.draw(Window.ui_surface, [self.x + 16, 32 + TileManager.TILE_SIZE])
         self.snap_to_grid_lbl.draw(Window.ui_surface, [self.x + 16, 56 + TileManager.TILE_SIZE])
-        self.new_game_obj_btn.draw(Window.ui_surface)
+        self.new_game_object_btn.draw(Window.ui_surface)
+
         if self.editor.selected_game_object != -1:
             self.selected_game_obj_name.update(
                 f"Obj: {self.editor.game_objects[self.editor.selected_game_object].get("name")}"
@@ -100,3 +116,4 @@ class SidePanel:
                 Window.ui_surface,
                 [self.x + 16, 134 + TileManager.TILE_SIZE * 2]
             )
+            self.edit_game_object_btn.draw(Window.ui_surface)

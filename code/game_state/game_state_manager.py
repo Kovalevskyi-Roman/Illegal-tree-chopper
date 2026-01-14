@@ -6,6 +6,7 @@ from .play_state import PlayState
 
 from .editor import LevelList
 from .editor import Editor
+from .editor import DataEditor
 
 
 class GameStateManager:
@@ -14,6 +15,7 @@ class GameStateManager:
 
     LEVEL_LIST = LevelList
     EDITOR = Editor
+    DATA_EDITOR = DataEditor
 
     def __init__(self) -> None:
         self.GAME_STATES: dict[type, GameState] = {
@@ -22,6 +24,7 @@ class GameStateManager:
 
             self.LEVEL_LIST: LevelList(self),
             self.EDITOR: Editor(self),
+            self.DATA_EDITOR: DataEditor(self)
         }
 
         self.current_state = self.MENU_STATE
