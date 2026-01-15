@@ -3,7 +3,7 @@ import pygame
 
 class Character:
     def __init__(self) -> None:
-        self.health: int = 100
+        self.health: float = 100
 
         self.rect: pygame.FRect = pygame.FRect(0, 0, 32, 32)
         self.direction: pygame.Vector2 = pygame.Vector2(0, 0)

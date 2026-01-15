@@ -39,11 +39,17 @@ class Editor(GameState):
         self.snap_to_grid: bool = True
 
     def save(self) -> None:
+        self.tile_map.tiles = list(filter(lambda row: len(row) > 0, self.tile_map.tiles))
+
+        content: dict | None = None
+        with open(f"../resources/data/levels/{self.level_name}.json", "r") as file:
+            content = json.load(file)
+
+        content["tile_map"] = self.tile_map.tiles
+        content["game_objects"] = self.game_objects
+
         with open(f"../resources/data/levels/{self.level_name}.json", "w") as file:
-            json.dump(
-                {"tile_map": self.tile_map.tiles, "game_objects": self.game_objects},
-                file,
-                indent=4)
+            json.dump(content, file, indent=4)
 
         self.game_state_manager.GAME_STATES.get(self.game_state_manager.PLAY_STATE).level_manager.load_levels()
         print(f"Level '{self.level_name}.json' saved")

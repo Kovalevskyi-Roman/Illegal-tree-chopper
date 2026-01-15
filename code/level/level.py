@@ -1,4 +1,5 @@
 import json
+import random
 import pygame
 
 from typing import Any
@@ -10,24 +11,38 @@ from .tile_map import TileMap
 
 class Level:
     def __init__(self, file_name: str, player: Player, camera: Camera, level_manager: "LevelManager") -> None:
-        self.tile_map: TileMap = TileMap(file_name)
-        self.game_objects: list[dict[str, Any]] = self.load_game_objects(file_name)
-
         self.file_name = file_name
         self.player = player
         self.camera = camera
         self.level_manager = level_manager
+
+        self.tile_map: TileMap | None = None
+        self.game_objects: list[dict[str, Any]] = list()
+        self.temperature_range: list[int] = list()
+        self.temperature: int = 0
+
+        self.load_level()
 
     @classmethod
     def load_game_objects(cls, file_name: str) -> list[dict[str, Any]]:
         with open(f"../resources/data/levels/{file_name}.json", "r") as file:
             return json.load(file).get("game_objects")
 
+    def load_level(self) -> None:
+        self.tile_map: TileMap = TileMap(self.file_name)
+        self.game_objects: list[dict[str, Any]] = self.load_game_objects(self.file_name)
+
+        with open(f"../resources/data/levels/{self.file_name}.json", "r") as file:
+            content = json.load(file)
+
+            self.temperature_range = content.get("temperature_range")
+
     def save_level(self) -> None:
         content: dict | None = None
         with open(f"../resources/data/levels/{self.file_name}.json", "r") as file:
             content = json.load(file)
 
+        content["temperature_range"] = self.temperature_range
         content["game_objects"] = self.game_objects
         with open(f"../resources/data/levels/{self.file_name}.json", "w") as file:
             json.dump(content, file, indent=4)
@@ -40,7 +55,10 @@ class Level:
             GameObject.draw(surface, game_object, self.camera.offset)
 
     def update(self) -> None:
-        self.player.update(self.game_objects, self.camera.offset)
+        if not int(self.player.time) % 60:
+            self.temperature = random.randint(*self.temperature_range)
+
+        self.player.update(self.game_objects, self.camera.offset, self.temperature)
         # border
         if self.player.rect.x < 0:
             self.player.rect.x = 0
@@ -53,8 +71,6 @@ class Level:
             self.player.rect.bottom = self.tile_map.height
 
         self.camera.update()
-
-        for game_object in self.game_objects:
-            GameObject.update(game_object, player=self.player, camera=self.camera, level_manager=self.level_manager)
+        GameObject.update_objects(self.game_objects, player=self.player, camera=self.camera, level_manager=self.level_manager)
 
         self.game_objects = list(filter(lambda o: o.get("data").get("health", 1) > 0, self.game_objects))

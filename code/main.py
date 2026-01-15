@@ -1,6 +1,6 @@
 import pygame
 
-from object import GameObject
+from object import GameObject, Tool
 
 pygame.init()
 
@@ -14,6 +14,7 @@ def main() -> None:
 
     TileManager.init()
     GameObject.load_textures()
+    Tool.init()
 
     GameLoop(window).run()
 

@@ -35,14 +35,34 @@ class GameObject:
 
         if game_object_name == "door":
             if player.rect.colliderect([game_object_position, [cls.SIZE, cls.SIZE]]) and \
-                    pygame.key.get_pressed()[pygame.K_e]:
+                    pygame.key.get_just_pressed()[pygame.K_e]:
+
                 if game_object.get("data").get("player_position", None) is not None:
                     player.rect.topleft = game_object.get("data").get("player_position")
                     camera.set_offset()
+
                 level_manager.current_level = game_object.get("data").get("go_to")
 
-        elif game_object_name == "spruce_tree":
-            ...
+    @classmethod
+    def update_objects(cls, game_objects: list[dict[str, Any]], *args, **kwargs) -> None:
+        player = kwargs.get("player")
+        camera = kwargs.get("camera")
+        level_manager = kwargs.get("level_manager")
+
+        for game_object in game_objects:
+            game_object_name = game_object.get("name")
+            game_object_position = pygame.Vector2(game_object.get("data").get("position"))
+
+            if game_object_name == "door":
+                if player.rect.colliderect([game_object_position, [cls.SIZE, cls.SIZE]]) and \
+                        pygame.key.get_just_pressed()[pygame.K_e]:
+
+                    if game_object.get("data").get("player_position", None) is not None:
+                        player.rect.topleft = game_object.get("data").get("player_position")
+                        camera.set_offset()
+
+                    level_manager.current_level = game_object.get("data").get("go_to")
+                    return
 
     @classmethod
     def draw(cls, surface: pygame.Surface, game_object: dict, offset: pygame.Vector2) -> None:

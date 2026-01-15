@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Деревянный топор",
+        "texture": "wood_axe.png",
+        "damage": 1,
+        "range": 40,
+        "cool_down": 2,
+
+        "price": 0
+    },
+    {
+        "name": "Каменный топор",
+        "texture": "stone_axe.png",
+        "damage": 2,
+        "range": 50,
+        "cool_down": 2,
+
+        "price": 250
+    },
+    {
+        "name": "Железный топор",
+        "texture": "iron_axe.png",
+        "damage": 5,
+        "range": 60,
+        "cool_down": 2,
+
+        "price": 750
+    },
+    {
+        "name": "Золотой топор",
+        "texture": "gold_axe.png",
+        "damage": 4,
+        "range": 45,
+        "cool_down": 1.2,
+
+        "price": 1500
+    },
+    {
+        "name": "Алмазный топор",
+        "texture": "diamond_axe.png",
+        "damage": 9,
+        "range": 80,
+        "cool_down": 1.75,
+
+        "price": 2700
+    },
+    {
+        "name": "Стальной топор",
+        "texture": "netherite_axe.png",
+        "damage": 10,
+        "range": 110,
+        "cool_down": 1.9,
+
+        "price": 4750
+    },
+    {
+        "name": "Бензопила 'белорусь'",
+        "texture": "chainsaw.png",
+        "damage": 10,
+        "range": 45,
+        "cool_down": 0.70,
+
+        "price": 7000
+    },
+    {
+        "name": "Машина: 'Эко ненавистник'",
+        "texture": "machine.png",
+        "damage": 30,
+        "range": 60,
+        "cool_down": 0.25,
+
+        "price": 25000
+    }
+]

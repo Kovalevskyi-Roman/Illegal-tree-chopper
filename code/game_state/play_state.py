@@ -21,4 +21,5 @@ class PlayState(GameState):
         self.level_manager.update_level()
 
     def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:
+        surface.fill("#0c0c1e")
         self.level_manager.draw_level(surface)
