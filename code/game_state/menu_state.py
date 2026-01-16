@@ -13,7 +13,7 @@ class MenuState(GameState):
 
         self.font_30 = pygame.font.SysFont("Tahoma", 30)
         self.font_24 = pygame.font.SysFont("Tahoma", 24)
-        self.__caption: Label = Label("Симулятор пьяного лесоруба", self.font_30, "#000000",
+        self.__caption: Label = Label("Симулятор нелегального лесоруба", self.font_30, "#000000",
                                       (205, 205, 205, 127), bg_padding=pygame.Vector2(12, 3))
 
         self.__play_button: Button = Button(

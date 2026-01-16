@@ -10,7 +10,7 @@ from level import TileManager
 
 def main() -> None:
     window: Window = Window()
-    pygame.display.set_caption("Симулятор пьяного лесоруба")
+    pygame.display.set_caption("Симулятор нелегального лесоруба")
 
     TileManager.init()
     GameObject.load_textures()

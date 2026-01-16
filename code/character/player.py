@@ -12,21 +12,22 @@ class Player(Character):
         super().__init__()
 
         self.move_speed: float = 4
-        self.cold_protection: float = 1
-        self.temperature: float = 36
-        self.temperature_update_timer: float = 0
-        self.time: float = 0  # seconds
-
-        self.tool: int = 0
         self.cool_down: float = 0
         self.last_direction: pygame.Vector2 = pygame.Vector2(0, 0)
 
+        self.cold_protection: float = 1
+        self.temperature: float = 36
+        self.temperature_update_timer: float = 0
+
+        self.time: float = 0  # seconds
+        self.tool: int = 0
+        self.max_wood_count: int = 10
+
         self.stats_lbl: MultiLineLabel = MultiLineLabel(
             [
-                f"Time: {int(self.time / 60)}:{round(self.time) % 60}",
-                "",
-                f"Health: {self.health}",
-                f"Temperature: {self.temperature}"
+                f"Время: {int(self.time / 60)}:{round(self.time) % 60}",
+                f"Здоровье: {self.health}",
+                f"Температура: {self.temperature:.1f}"
             ],
             pygame.font.SysFont("Tahoma", 22),
             "#ffffff",
@@ -48,7 +49,6 @@ class Player(Character):
 
             if game_object_rect.collidepoint(pygame.mouse.get_pos()):
                 game_object["data"]["health"] -= Tool.damage(self.tool)
-                # print(f"Hit! {game_object.get("data").get("health")}hp left!")
 
     def update_temperature(self, level_temperature: int) -> None:
         if level_temperature < 4:
@@ -59,6 +59,9 @@ class Player(Character):
 
         if self.temperature < 4:
             self.health -= 0.1
+            self.health = round(self.health, 1)
+        elif self.temperature >= 39:
+            self.health -= 0.2
             self.health = round(self.health, 1)
 
     def update(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2, level_temperature: int) -> None:
@@ -119,10 +122,9 @@ class Player(Character):
 
         self.stats_lbl.update(
             [
-                f"Time: {int(self.time / 60)}:{round(self.time) % 60}",
-                "",
-                f"Health: {self.health}",
-                f"Temperature: {self.temperature:.1f}"
+                f"Время: {int(self.time / 60)}:{round(self.time) % 60}",
+                f"Здоровье: {self.health}",
+                f"Температура: {self.temperature:.1f}"
             ]
         )
         self.stats_lbl.draw(Window.ui_surface, [0, 0])

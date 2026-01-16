@@ -108,6 +108,6 @@ class MultiLineEntry:
             surface,
             "#ffffff",
             [self.rect.x + width,
-             self.rect.y + self.cursor[0] * self.font.get_ascent(), 2, self.font.get_ascent()]
+             self.rect.y + self.cursor[0] * self.font.get_height(), 2, self.font.get_height()]
         )
 

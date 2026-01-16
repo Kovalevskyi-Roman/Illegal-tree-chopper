@@ -37,4 +37,4 @@ class MultiLineLabel:
             if position.y != -1:
                 label_pos.y = position.y
 
-            surface.blit(render, label_pos + pygame.Vector2(0, i * self.font.get_ascent()))
+            surface.blit(render, label_pos + pygame.Vector2(0, i * self.font.get_height()))

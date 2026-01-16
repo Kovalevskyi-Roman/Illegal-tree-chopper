@@ -2,6 +2,7 @@ import pygame
 
 from pathlib import Path
 from typing import Any
+
 from window import Window
 
 
@@ -25,16 +26,17 @@ class GameObject:
                 cls.textures.setdefault(obj.stem, pygame.transform.scale(texture, (cls.SIZE, cls.SIZE)))
 
     @classmethod
-    def update(cls, game_object: dict[str, Any], *args, **kwargs) -> None:
+    def update(cls, game_object: dict[str, Any], *args, **kwargs) -> bool:
         player = kwargs.get("player")
         camera = kwargs.get("camera")
         level_manager = kwargs.get("level_manager")
 
         game_object_name = game_object.get("name")
         game_object_position = pygame.Vector2(game_object.get("data").get("position"))
+        game_object_rect = pygame.Rect(game_object_position, [cls.SIZE, cls.SIZE])
 
         if game_object_name == "door":
-            if player.rect.colliderect([game_object_position, [cls.SIZE, cls.SIZE]]) and \
+            if player.rect.colliderect(game_object_rect) and \
                     pygame.key.get_just_pressed()[pygame.K_e]:
 
                 if game_object.get("data").get("player_position", None) is not None:
@@ -42,27 +44,19 @@ class GameObject:
                     camera.set_offset()
 
                 level_manager.current_level = game_object.get("data").get("go_to")
+                return True
+
+        elif game_object_name == "campfire":
+            if pygame.Vector2(game_object_rect.center).distance_to(player.rect.center) <= cls.SIZE:
+                player.temperature += game_object.get("data").get("heat")
+
+        return False
 
     @classmethod
     def update_objects(cls, game_objects: list[dict[str, Any]], *args, **kwargs) -> None:
-        player = kwargs.get("player")
-        camera = kwargs.get("camera")
-        level_manager = kwargs.get("level_manager")
-
         for game_object in game_objects:
-            game_object_name = game_object.get("name")
-            game_object_position = pygame.Vector2(game_object.get("data").get("position"))
-
-            if game_object_name == "door":
-                if player.rect.colliderect([game_object_position, [cls.SIZE, cls.SIZE]]) and \
-                        pygame.key.get_just_pressed()[pygame.K_e]:
-
-                    if game_object.get("data").get("player_position", None) is not None:
-                        player.rect.topleft = game_object.get("data").get("player_position")
-                        camera.set_offset()
-
-                    level_manager.current_level = game_object.get("data").get("go_to")
-                    return
+            if cls.update(game_object, *args, **kwargs):
+                break
 
     @classmethod
     def draw(cls, surface: pygame.Surface, game_object: dict, offset: pygame.Vector2) -> None:

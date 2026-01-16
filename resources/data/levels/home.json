@@ -1,7 +1,7 @@
 {
     "temperature_range": [
-        36,
-        36
+        16,
+        25
     ],
     "tile_map": [
         [
@@ -498,9 +498,19 @@
                 ],
                 "go_to": "street",
                 "player_position": [
-                    10,
-                    10
+                    48,
+                    48
                 ]
+            }
+        },
+        {
+            "name": "campfire",
+            "data": {
+                "position": [
+                    912.0,
+                    480.0
+                ],
+                "heat": 0.01
             }
         }
     ]
