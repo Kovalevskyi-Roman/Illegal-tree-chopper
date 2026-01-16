@@ -1,19 +1,16 @@
-from ctypes.wintypes import SIZE
-
 import pygame
 
 from ui import Label, Button
 from window import Window
 from .game_state import GameState
+from common import FONT_30, FONT_24
 
 
 class MenuState(GameState):
     def __init__(self, game_state_manager: "GameStateManager", *args, **kwargs) -> None:
         super().__init__(game_state_manager, *args, **kwargs)
 
-        self.font_30 = pygame.font.SysFont("Tahoma", 30)
-        self.font_24 = pygame.font.SysFont("Tahoma", 24)
-        self.__caption: Label = Label("Симулятор нелегального лесоруба", self.font_30, "#000000",
+        self.__caption: Label = Label("Симулятор нелегального лесоруба", FONT_30, "#000000",
                                       (205, 205, 205, 127), bg_padding=pygame.Vector2(12, 3))
 
         self.__play_button: Button = Button(
@@ -22,7 +19,7 @@ class MenuState(GameState):
             pygame.Rect(-1, 270, 300, 36),
             pygame.Surface((300, 36), flags=pygame.SRCALPHA),
             "Играть",
-            self.font_24,
+            FONT_24,
             "#000000"
         )
 
@@ -32,7 +29,7 @@ class MenuState(GameState):
             pygame.Rect(-1, 320, 300, 36),
             pygame.Surface((300, 36), flags=pygame.SRCALPHA),
             "Настройки",
-            self.font_24,
+            FONT_24,
             "#000000"
         )
 
@@ -42,7 +39,7 @@ class MenuState(GameState):
             pygame.Rect(-1, 370, 300, 36),
             pygame.Surface((300, 36), flags=pygame.SRCALPHA),
             "Выйти из игры",
-            self.font_24,
+            FONT_24,
             "#000000"
         )
 
@@ -52,7 +49,7 @@ class MenuState(GameState):
             pygame.Rect(-1, 420, 300, 36),
             pygame.Surface((300, 36), flags=pygame.SRCALPHA),
             "Редактор уровней",
-            self.font_24,
+            FONT_24,
             "#000000"
         )
 

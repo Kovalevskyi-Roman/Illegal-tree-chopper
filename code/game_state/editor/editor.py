@@ -6,7 +6,8 @@ from typing import Any
 from game_state import GameState
 from game_state.editor.side_panel import SidePanel
 from level import TileMap, Level, TileManager
-from object import GameObject
+from game_object import GameObject
+from common import GAME_OBJECT_SIZE, TILE_SIZE
 from window import Window
 
 
@@ -104,7 +105,7 @@ class Editor(GameState):
 
             if self.snap_to_grid:
                 self.game_objects[self.selected_game_object]["data"]["position"] = list(
-                    (mouse_pos + self.offset) // TileManager.TILE_SIZE * TileManager.TILE_SIZE
+                    (mouse_pos + self.offset) // TILE_SIZE * TILE_SIZE
                 )
 
         scroll = tuple(filter(lambda e: e.type == pygame.MOUSEWHEEL, Window.events))
@@ -121,7 +122,7 @@ class Editor(GameState):
         if mouse_pressed[0] and mouse_pos.x < Window.SIZE[0] - self.side_panel.width:
             for i in range(len(self.game_objects)):
                 game_object = self.game_objects[i]
-                rect = pygame.Rect(game_object.get("data").get("position"), [TileManager.TILE_SIZE, TileManager.TILE_SIZE])
+                rect = pygame.Rect(game_object.get("data").get("position"), [GAME_OBJECT_SIZE, GAME_OBJECT_SIZE])
                 rect.topleft -= self.offset
 
                 if rect.collidepoint(mouse_pos):
@@ -129,7 +130,7 @@ class Editor(GameState):
                     return
 
             self.selected_game_object = -1
-            mouse_tile_pos = ((mouse_pos + self.offset) // TileManager.TILE_SIZE)
+            mouse_tile_pos = ((mouse_pos + self.offset) // TILE_SIZE)
 
             if mouse_tile_pos.y < 0 or mouse_tile_pos.x < 0:
                 return
@@ -143,7 +144,7 @@ class Editor(GameState):
             self.tile_map.tiles[int(mouse_tile_pos.y)][int(mouse_tile_pos.x)] = self.selected_tile
 
         elif mouse_pressed[2] and mouse_pos.x < Window.SIZE[0] - self.side_panel.width:
-            mouse_tile_pos = ((mouse_pos + self.offset) // TileManager.TILE_SIZE)
+            mouse_tile_pos = ((mouse_pos + self.offset) // TILE_SIZE)
 
             if mouse_tile_pos.y < 0 or mouse_tile_pos.x < 0 or mouse_tile_pos.y > len(self.tile_map.tiles) - 1:
                 return

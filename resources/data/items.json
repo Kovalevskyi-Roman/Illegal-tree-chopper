@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Древесина",
+        "texture": "wood.png",
+        "on_use": null
+    },
+    {
+        "name": "Водка",
+        "texture": "vodka.png",
+        "on_use": {
+            "temperature": 2,
+            "drunk": 20
+        }
+    },
+    {
+        "name": "Лимонно-арбузная печенька",
+        "texture": "lemon_melon_cookie.png",
+        "on_use": {
+            "health": 10
+        }
+    }
+]

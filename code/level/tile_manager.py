@@ -1,16 +1,17 @@
 import json
 import pygame
 
+from common import TILE_SIZE
+
 
 class TileManager:
-    TILE_SIZE: int = 48
     tiles: tuple[str, ...] = tuple()
     tile_textures: tuple[pygame.Surface, ...] | None = None
 
     @classmethod
     def init(cls) -> None:
         cls.load_tiles()
-        cls.scale_to_tile_textures((cls.TILE_SIZE, cls.TILE_SIZE))
+        cls.scale_to_tile_textures((TILE_SIZE, TILE_SIZE))
 
     @classmethod
     def load_tiles(cls) -> None:

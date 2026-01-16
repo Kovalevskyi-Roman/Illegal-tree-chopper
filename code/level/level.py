@@ -5,7 +5,7 @@ import pygame
 from typing import Any
 from camera import Camera
 from character import Player
-from object import GameObject
+from game_object import GameObject
 from .tile_map import TileMap
 
 

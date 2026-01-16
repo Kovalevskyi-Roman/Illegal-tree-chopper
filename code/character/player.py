@@ -1,15 +1,20 @@
 import pygame
 
 from typing import Any
-from object import GameObject, Tool
+from tool import Tool
+from common import GAME_OBJECT_SIZE, TILE_SIZE
 from ui import MultiLineLabel
 from window import Window
+from inventory import Inventory
 from .character import Character
 
 
 class Player(Character):
     def __init__(self) -> None:
         super().__init__()
+
+        self.rect.x = TILE_SIZE * 8
+        self.rect.y = TILE_SIZE * 8
 
         self.move_speed: float = 4
         self.cool_down: float = 0
@@ -21,7 +26,9 @@ class Player(Character):
 
         self.time: float = 0  # seconds
         self.tool: int = 0
-        self.max_wood_count: int = 10
+        self.inventory_opened: bool = False
+        self.inventory: Inventory = Inventory()
+        self.inventory.max_stack_count = 5
 
         self.stats_lbl: MultiLineLabel = MultiLineLabel(
             [
@@ -41,8 +48,8 @@ class Player(Character):
                 continue
 
             game_object_position = pygame.Vector2(game_object.get("data").get("position"))
-            game_object_rect = pygame.Rect(game_object_position - offset, [GameObject.SIZE, GameObject.SIZE])
-            game_object_center = game_object_position + pygame.Vector2(GameObject.SIZE / 2, GameObject.SIZE / 2)
+            game_object_rect = pygame.Rect(game_object_position - offset, [GAME_OBJECT_SIZE, GAME_OBJECT_SIZE])
+            game_object_center = game_object_position + pygame.Vector2(GAME_OBJECT_SIZE / 2, GAME_OBJECT_SIZE / 2)
 
             if game_object_center.distance_to(self.rect.center) > Tool.range(self.tool):
                 continue
@@ -82,7 +89,15 @@ class Player(Character):
         elif keys[pygame.K_s]:
             self.direction.y = 1
 
-        if self.direction.length():
+        if pygame.key.get_just_pressed()[pygame.K_TAB]:
+            self.inventory_opened = not self.inventory_opened
+
+        if self.inventory_opened:
+            self.inventory.update([32, 32])
+        else:
+            self.inventory.selected_item = -1
+
+        if self.direction.length() and not self.inventory_opened:
             self.rect.topleft += self.direction.normalize() * self.move_speed
 
         self.temperature_update_timer -= Window.DELTA
@@ -99,7 +114,7 @@ class Player(Character):
         else:
             self.cool_down = 0
 
-        if not self.cool_down and pygame.mouse.get_pressed()[0]:
+        if not self.cool_down and pygame.mouse.get_pressed()[0] and not self.inventory_opened:
             self.attack_tree(game_objects, offset)
 
     def draw_tool(self, surface: pygame.Surface, offset: pygame.Vector2) -> None:
@@ -120,11 +135,14 @@ class Player(Character):
 
         self.draw_tool(surface, offset)
 
-        self.stats_lbl.update(
-            [
-                f"Время: {int(self.time / 60)}:{round(self.time) % 60}",
-                f"Здоровье: {self.health}",
-                f"Температура: {self.temperature:.1f}"
-            ]
-        )
-        self.stats_lbl.draw(Window.ui_surface, [0, 0])
+        if self.inventory_opened:
+            self.inventory.draw(Window.ui_surface, [32, 32])
+
+        # self.stats_lbl.update(
+        #     [
+        #         f"Время: {int(self.time / 60)}:{round(self.time) % 60}",
+        #         f"Здоровье: {self.health}",
+        #         f"Температура: {self.temperature:.1f}"
+        #     ]
+        # )
+        # self.stats_lbl.draw(Window.ui_surface, [0, 0])

@@ -2,12 +2,11 @@ import pygame
 
 from pathlib import Path
 from typing import Any
-
+from common import GAME_OBJECT_SIZE
 from window import Window
 
 
 class GameObject:
-    SIZE: int = 48
     textures: dict[str, pygame.Surface] = dict()
 
     @classmethod
@@ -20,10 +19,10 @@ class GameObject:
 
             if obj.suffix == ".png":
                 texture = pygame.image.load(obj).convert_alpha()
-                cls.textures.setdefault(obj.stem, pygame.transform.scale(texture, (cls.SIZE, cls.SIZE)))
+                cls.textures.setdefault(obj.stem, pygame.transform.scale(texture, (GAME_OBJECT_SIZE, GAME_OBJECT_SIZE)))
             else:
                 texture = pygame.image.load(obj).convert()
-                cls.textures.setdefault(obj.stem, pygame.transform.scale(texture, (cls.SIZE, cls.SIZE)))
+                cls.textures.setdefault(obj.stem, pygame.transform.scale(texture, (GAME_OBJECT_SIZE, GAME_OBJECT_SIZE)))
 
     @classmethod
     def update(cls, game_object: dict[str, Any], *args, **kwargs) -> bool:
@@ -33,7 +32,7 @@ class GameObject:
 
         game_object_name = game_object.get("name")
         game_object_position = pygame.Vector2(game_object.get("data").get("position"))
-        game_object_rect = pygame.Rect(game_object_position, [cls.SIZE, cls.SIZE])
+        game_object_rect = pygame.Rect(game_object_position, [GAME_OBJECT_SIZE, GAME_OBJECT_SIZE])
 
         if game_object_name == "door":
             if player.rect.colliderect(game_object_rect) and \
@@ -47,7 +46,7 @@ class GameObject:
                 return True
 
         elif game_object_name == "campfire":
-            if pygame.Vector2(game_object_rect.center).distance_to(player.rect.center) <= cls.SIZE:
+            if pygame.Vector2(game_object_rect.center).distance_to(player.rect.center) <= GAME_OBJECT_SIZE:
                 player.temperature += game_object.get("data").get("heat")
 
         return False
@@ -63,8 +62,8 @@ class GameObject:
         position = pygame.Vector2(game_object.get("data").get("position"))
         screen_position = position - offset
 
-        if screen_position.x < -cls.SIZE or screen_position.x > Window.SIZE[0] or \
-                screen_position.y < -cls.SIZE or screen_position.y > Window.SIZE[1]:
+        if screen_position.x < -GAME_OBJECT_SIZE or screen_position.x > Window.SIZE[0] or \
+                screen_position.y < -GAME_OBJECT_SIZE or screen_position.y > Window.SIZE[1]:
             return
 
         texture = cls.textures.get(game_object.get("name"), None)

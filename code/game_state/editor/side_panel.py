@@ -1,9 +1,9 @@
 import pygame
 
-from copy import deepcopy
 from ui import Button, Label
 from window import Window
 from level import TileManager
+from common import TILE_SIZE, FONT_20
 
 
 class SidePanel:
@@ -14,40 +14,38 @@ class SidePanel:
         self.width: int = round(Window.SIZE[0] / 5.12)
         self.x = Window.SIZE[0] - self.width
 
-        font = pygame.font.SysFont("Tahoma", 20)
-
         self.safe_tile_del_btn: Button = Button(
             pygame.mouse.get_just_pressed,
             0,
-            pygame.Rect(self.x + 32 + TileManager.TILE_SIZE, 16, self.width - 48 - TileManager.TILE_SIZE, TileManager.TILE_SIZE),
-            pygame.Surface([self.width - 48 - TileManager.TILE_SIZE, TileManager.TILE_SIZE]),
+            pygame.Rect(self.x + 32 + TILE_SIZE, 16, self.width - 48 - TILE_SIZE, TILE_SIZE),
+            pygame.Surface([self.width - 48 - TILE_SIZE, TILE_SIZE]),
             f"Safe del: {self.editor.safe_tile_deleting}",
-            font,
+            FONT_20,
             "#efefef"
         )
 
-        self.move_game_object_lbl: Label = Label(f"[M]ove: {self.editor.move_game_object}", font, "#efefef")
-        self.snap_to_grid_lbl: Label = Label(f"To [G]rid: {self.editor.snap_to_grid}", font, "#efefef")
+        self.move_game_object_lbl: Label = Label(f"[M]ove: {self.editor.move_game_object}", FONT_20, "#efefef")
+        self.snap_to_grid_lbl: Label = Label(f"To [G]rid: {self.editor.snap_to_grid}", FONT_20, "#efefef")
 
         self.new_game_object_btn: Button = Button(
             pygame.mouse.get_just_pressed,
             0,
-            pygame.Rect(self.x + 16, 96 + TileManager.TILE_SIZE, self.width - 32, TileManager.TILE_SIZE),
-            pygame.Surface([self.width - 32, TileManager.TILE_SIZE]),
+            pygame.Rect(self.x + 16, 96 + TILE_SIZE, self.width - 32, TILE_SIZE),
+            pygame.Surface([self.width - 32, TILE_SIZE]),
             "New object",
-            font,
+            FONT_20,
             "#efefef"
         )
-        self.selected_game_obj_name: Label = Label("", font, "#efefef")
-        self.selected_game_obj_pos: Label = Label("", font, "#efefef")
+        self.selected_game_obj_name: Label = Label("", FONT_20, "#efefef")
+        self.selected_game_obj_pos: Label = Label("", FONT_20, "#efefef")
 
         self.edit_game_object_btn: Button = Button(
             pygame.mouse.get_just_pressed,
             0,
-            pygame.Rect(self.x + 16, 174 + TileManager.TILE_SIZE * 2, self.width - 32, TileManager.TILE_SIZE),
-            pygame.Surface([self.width - 32, TileManager.TILE_SIZE]),
+            pygame.Rect(self.x + 16, 174 + TILE_SIZE * 2, self.width - 32, TILE_SIZE),
+            pygame.Surface([self.width - 32, TILE_SIZE]),
             "Edit data",
-            font,
+            FONT_20,
             "#efefef"
         )
 
@@ -98,8 +96,8 @@ class SidePanel:
             TileManager.tile_textures[self.editor.selected_tile],[self.x + 16, 16]
         )
         self.safe_tile_del_btn.draw(Window.ui_surface)
-        self.move_game_object_lbl.draw(Window.ui_surface, [self.x + 16, 32 + TileManager.TILE_SIZE])
-        self.snap_to_grid_lbl.draw(Window.ui_surface, [self.x + 16, 56 + TileManager.TILE_SIZE])
+        self.move_game_object_lbl.draw(Window.ui_surface, [self.x + 16, 32 + TILE_SIZE])
+        self.snap_to_grid_lbl.draw(Window.ui_surface, [self.x + 16, 56 + TILE_SIZE])
         self.new_game_object_btn.draw(Window.ui_surface)
 
         if self.editor.selected_game_object != -1:
@@ -108,13 +106,13 @@ class SidePanel:
             )
             self.selected_game_obj_name.draw(
                 Window.ui_surface,
-                [self.x + 16, 112 + TileManager.TILE_SIZE * 2]
+                [self.x + 16, 112 + TILE_SIZE * 2]
             )
             self.selected_game_obj_pos.update(
                 f"Pos: {self.editor.game_objects[self.editor.selected_game_object].get("data").get("position")}"
             )
             self.selected_game_obj_pos.draw(
                 Window.ui_surface,
-                [self.x + 16, 134 + TileManager.TILE_SIZE * 2]
+                [self.x + 16, 134 + TILE_SIZE * 2]
             )
             self.edit_game_object_btn.draw(Window.ui_surface)

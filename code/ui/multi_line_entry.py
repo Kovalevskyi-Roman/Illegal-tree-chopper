@@ -2,6 +2,7 @@ import pygame
 
 from ui import MultiLineLabel
 from window import Window
+from common import CURSOR_BLINK_TIME
 
 
 class MultiLineEntry:
@@ -13,6 +14,7 @@ class MultiLineEntry:
         self.text: list[list[str]] = list(list())
 
         self.active: bool = False
+        self.blink_timer: float = CURSOR_BLINK_TIME
         self.cursor: list[int] = [0, -1]  # [line, char]
 
     def set_text(self, text: str) -> None:
@@ -51,6 +53,7 @@ class MultiLineEntry:
             if event.type == pygame.TEXTINPUT:
                 self.cursor[1] += 1
                 self.text[self.cursor[0]].insert(self.cursor[1], event.text)
+                self.blink_timer += CURSOR_BLINK_TIME
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
@@ -66,10 +69,13 @@ class MultiLineEntry:
 
                         self.cursor[1] = len(self.text[self.cursor[0]]) - 1
 
+                    self.blink_timer += CURSOR_BLINK_TIME
+
                 elif event.key == pygame.K_RETURN:
                     self.cursor[0] += 1
                     self.cursor[1] = -1
                     self.text.insert(self.cursor[0], list())
+                    self.blink_timer += CURSOR_BLINK_TIME
 
                 elif event.key == pygame.K_LEFT:
                     self.cursor[1] -= 1
@@ -104,10 +110,15 @@ class MultiLineEntry:
         if self.text:
             width += self.font.size(self.get_line(self.cursor[0])[:self.cursor[1] + 1])[0]
 
-        pygame.draw.rect(
-            surface,
-            "#ffffff",
-            [self.rect.x + width,
-             self.rect.y + self.cursor[0] * self.font.get_height(), 2, self.font.get_height()]
-        )
+        self.blink_timer -= Window.DELTA
+        if self.blink_timer < -CURSOR_BLINK_TIME:
+            self.blink_timer = CURSOR_BLINK_TIME
+
+        if self.active and self.blink_timer > 0:
+            pygame.draw.rect(
+                surface,
+                "#ffffff",
+                [self.rect.x + width,
+                 self.rect.y + self.cursor[0] * self.font.get_height(), 2, self.font.get_height()]
+            )
 

@@ -4,6 +4,7 @@ import json
 from game_state import GameState
 from ui import MultiLineEntry
 from window import Window
+from common import FONT_18
 
 
 class DataEditor(GameState):
@@ -13,7 +14,7 @@ class DataEditor(GameState):
         self.entry: MultiLineEntry = MultiLineEntry(
             pygame.Rect((0, 0), Window.SIZE),
             pygame.Surface(Window.SIZE),
-            pygame.font.SysFont("Tahoma", 20),
+            FONT_18,
             "#dddddd"
         )
         self.entry.texture.fill("#323232")
