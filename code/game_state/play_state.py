@@ -16,8 +16,11 @@ class PlayState(GameState):
         self.level_manager = LevelManager(self.player, self.camera)
 
     def update(self, *args, **kwargs) -> None:
-        if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            self.game_state_manager.change_state(self.game_state_manager.MENU_STATE)
+        if pygame.key.get_just_pressed()[pygame.K_ESCAPE]:
+            if self.player.inventory_opened:
+                self.player.inventory_opened = False
+            else:
+                self.game_state_manager.change_state(self.game_state_manager.MENU_STATE)
 
         self.level_manager.update_level()
         Item.update_items(player=self.player, level=self.level_manager.levels.get(self.level_manager.current_level))

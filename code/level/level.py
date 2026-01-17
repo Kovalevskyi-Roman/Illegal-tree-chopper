@@ -5,7 +5,7 @@ import common
 
 from typing import Any
 from camera import Camera
-from character import Player
+from character import Player, Character
 from game_object import GameObject
 from .tile_map import TileMap
 
@@ -19,6 +19,7 @@ class Level:
 
         self.tile_map: TileMap | None = None
         self.game_objects: list[dict[str, Any]] = list()
+        self.characters: list[Character] = list()
         self.temperature_range: list[int] = list()
         self.temperature: int = 0
 
@@ -53,6 +54,9 @@ class Level:
         self.tile_map.draw(surface, self.camera.offset)
         self.player.draw(surface, self.camera.offset)
 
+        for character in self.characters:
+            character.draw(surface, self.camera.offset)
+
         for game_object in self.game_objects:
             GameObject.draw(surface, game_object, self.camera.offset)
 
@@ -61,6 +65,10 @@ class Level:
             self.temperature = random.randint(*self.temperature_range)
 
         self.player.update(self.game_objects, self.camera.offset, self.temperature)
+
+        for character in self.characters:
+            character.update(player=self.player)
+
         # border
         if self.player.rect.x < 0:
             self.player.rect.x = 0
@@ -74,5 +82,11 @@ class Level:
 
         self.camera.update()
 
-        GameObject.update_objects(self.game_objects, player=self.player, camera=self.camera, level_manager=self.level_manager)
+        GameObject.update_objects(
+            self.game_objects,
+            player=self.player,
+            camera=self.camera,
+            level_manager=self.level_manager,
+            characters=self.characters,
+        )
         self.game_objects = list(filter(lambda o: o.get("data").get("health", 1) > 0, self.game_objects))

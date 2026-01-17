@@ -13,7 +13,7 @@ class Inventory:
         # [{item: int, count: int}, ...]
         self.items: list[dict[str, int]] = list()
         self.max_stack_count: int = 999
-        self.max_lenght: int = 15
+        self.max_length: int = 15
         self.width: int = 4
 
         self.hovered_item: int = -1
@@ -30,7 +30,7 @@ class Inventory:
                 item["count"] += 1
                 added = True
 
-        if len(self.items) < self.max_lenght and not added:
+        if len(self.items) < self.max_length and not added:
             self.items.append({"item": item_id, "count": 1})
 
     def add_item(self, item_id: int, count: int) -> None:
@@ -68,7 +68,7 @@ class Inventory:
             item_rect = pygame.Rect(position + offset, [ITEM_SIZE, ITEM_SIZE])
             if item_rect.collidepoint(pygame.mouse.get_pos()):
                 self.hovered_item = i
-                if pygame.mouse.get_pressed()[0]:
+                if pygame.mouse.get_just_pressed()[0]:
                     self.selected_item = i
 
             offset.x += ITEM_SIZE + 8

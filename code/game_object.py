@@ -4,7 +4,7 @@ import common
 from pathlib import Path
 from typing import Any
 from common import GAME_OBJECT_SIZE
-from inventory import Inventory
+from character import Chest
 from window import Window
 
 
@@ -31,6 +31,7 @@ class GameObject:
         player = kwargs.get("player")
         camera = kwargs.get("camera")
         level_manager = kwargs.get("level_manager")
+        characters = kwargs.get("characters")
 
         game_object_name = game_object.get("name")
         game_object_position = pygame.Vector2(game_object.get("data").get("position"))
@@ -56,11 +57,10 @@ class GameObject:
                 common.game_time += 0.25
 
         elif game_object_name == "chest":
-            if player.rect.colliderect(game_object_rect) and \
-                    pygame.key.get_just_pressed()[pygame.K_e]:
-                inventory = Inventory()
-                inventory.items = game_object.get("data").get("items")
-                inventory.draw(Window.ui_surface, [232, 32])
+            chest = Chest()
+            chest.from_game_object(game_object)
+            characters.append(chest)
+            game_object["data"]["health"] = 0
 
         return False
 

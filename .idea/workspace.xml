@@ -4,24 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="items and raw inventory">
-      <change afterPath="$PROJECT_DIR$/resources/textures/frozen_effect.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/game_objects/bed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/game_objects/chest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/items/phone.png" afterDir="false" />
+    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="sus">
+      <change afterPath="$PROJECT_DIR$/code/character/chest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/character/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/character/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/game_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/game_state/play_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/play_state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/inventory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/item.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/level/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/items.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/levels/home.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/home.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/levels/street.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/street.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,25 +39,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/root/Python/pygame/Симулятор нелегального лесоруба/resources/textures/game_objects",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "0d570cb2-96df-43cc-80da-7f777e6d0afe"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/root/Python/pygame/Симулятор нелегального лесоруба/resources/textures/game_objects&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;0d570cb2-96df-43cc-80da-7f777e6d0afe&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\game_objects" />
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\game_objects" />
+      <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\characters" />
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\items" />
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\code" />
     </key>
