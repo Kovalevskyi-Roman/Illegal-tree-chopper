@@ -9,3 +9,5 @@ FONT_18: pygame.Font = pygame.font.SysFont("Tahoma", 18)
 FONT_20: pygame.Font = pygame.font.SysFont("Tahoma", 20)
 FONT_24: pygame.Font = pygame.font.SysFont("Tahoma", 24)
 FONT_30: pygame.Font = pygame.font.SysFont("Tahoma", 30)
+
+game_time: float = 12 * 60  # seconds

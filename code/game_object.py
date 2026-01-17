@@ -1,8 +1,10 @@
 import pygame
+import common
 
 from pathlib import Path
 from typing import Any
 from common import GAME_OBJECT_SIZE
+from inventory import Inventory
 from window import Window
 
 
@@ -48,6 +50,17 @@ class GameObject:
         elif game_object_name == "campfire":
             if pygame.Vector2(game_object_rect.center).distance_to(player.rect.center) <= GAME_OBJECT_SIZE:
                 player.temperature += game_object.get("data").get("heat")
+
+        elif game_object_name == "bed":
+            if player.rect.colliderect(game_object_rect):
+                common.game_time += 0.25
+
+        elif game_object_name == "chest":
+            if player.rect.colliderect(game_object_rect) and \
+                    pygame.key.get_just_pressed()[pygame.K_e]:
+                inventory = Inventory()
+                inventory.items = game_object.get("data").get("items")
+                inventory.draw(Window.ui_surface, [232, 32])
 
         return False
 

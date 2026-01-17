@@ -1,6 +1,7 @@
 import json
 import random
 import pygame
+import common
 
 from typing import Any
 from camera import Camera
@@ -36,6 +37,7 @@ class Level:
             content = json.load(file)
 
             self.temperature_range = content.get("temperature_range")
+            self.temperature = random.randint(*self.temperature_range)
 
     def save_level(self) -> None:
         content: dict | None = None
@@ -55,7 +57,7 @@ class Level:
             GameObject.draw(surface, game_object, self.camera.offset)
 
     def update(self) -> None:
-        if not int(self.player.time) % 60:
+        if not int(common.game_time) % 60:
             self.temperature = random.randint(*self.temperature_range)
 
         self.player.update(self.game_objects, self.camera.offset, self.temperature)
@@ -71,6 +73,6 @@ class Level:
             self.player.rect.bottom = self.tile_map.height
 
         self.camera.update()
-        GameObject.update_objects(self.game_objects, player=self.player, camera=self.camera, level_manager=self.level_manager)
 
+        GameObject.update_objects(self.game_objects, player=self.player, camera=self.camera, level_manager=self.level_manager)
         self.game_objects = list(filter(lambda o: o.get("data").get("health", 1) > 0, self.game_objects))

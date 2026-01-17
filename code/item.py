@@ -1,5 +1,6 @@
 import json
 import pygame
+import common
 
 from typing import Any
 from common import ITEM_SIZE
@@ -10,7 +11,7 @@ class Item:
 
     @classmethod
     def init(cls) -> None:
-        with open("../resources/data/items.json", "r") as file:
+        with open("../resources/data/items.json", "r", encoding="utf-8") as file:
             cls.items = json.load(file)
 
         for item in cls.items:
@@ -26,6 +27,21 @@ class Item:
     @classmethod
     def use(cls, item_index: int) -> None:
         ...
+
+    @classmethod
+    def update_items(cls, *args, **kwargs) -> None:
+        for item in cls.items:
+            match item.get("name").lower():
+                case "телефон":
+                    item["description"] = [
+                        f"Время: {int(common.game_time / 60)}:{round(common.game_time) % 60}"
+                    ]
+                case "термометр":
+                    item["description"] = [
+                        "Температура:",
+                        f"    Тела: {kwargs.get("player").temperature:.1f}",
+                        f"    Локации: {kwargs.get("level").temperature:.1f}"
+                    ]
 
     @classmethod
     def draw(cls, surface: pygame.Surface, item_id: int, position: pygame.Vector2 | pygame.typing.SequenceLike[int]) -> None:

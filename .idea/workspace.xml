@@ -4,29 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="project rename">
-      <change afterPath="$PROJECT_DIR$/code/common.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code/inventory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code/item.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/data/items.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/items/lemon_melon_cookie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/items/vodka.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/items/wood.png" afterDir="false" />
+    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="items and raw inventory">
+      <change afterPath="$PROJECT_DIR$/resources/textures/frozen_effect.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/game_objects/bed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/game_objects/chest.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/items/phone.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/character/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_state/editor/data_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/editor/data_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_state/editor/editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/editor/editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_state/editor/side_panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/editor/side_panel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_state/menu_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/menu_state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_state/play_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/play_state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/inventory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/item.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/level/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/level/tile_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/tile_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/level/tile_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/tile_map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/object/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/object/game_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_object.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/object/tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tool.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/ui/entry.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/ui/entry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/ui/multi_line_entry.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/ui/multi_line_entry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/tool.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/tool.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/levels/home.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/home.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/levels/street.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/street.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,11 +57,16 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/root/Python/pygame/Симулятор нелегального лесоруба/resources/textures/game_objects",
     "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "0d570cb2-96df-43cc-80da-7f777e6d0afe"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\game_objects" />
+      <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\items" />
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\code" />
@@ -124,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768573933547</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="items and raw inventory">
+      <option name="closed" value="true" />
+      <created>1768599844960</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1768599844960</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -140,6 +148,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="project rename" />
-    <option name="LAST_COMMIT_MESSAGE" value="project rename" />
+    <MESSAGE value="items and raw inventory" />
+    <option name="LAST_COMMIT_MESSAGE" value="items and raw inventory" />
   </component>
 </project>

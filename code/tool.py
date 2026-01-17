@@ -9,7 +9,7 @@ class Tool:
 
     @classmethod
     def init(cls) -> None:
-        with open("../resources/data/tools.json", "r") as file:
+        with open("../resources/data/tools.json", "r", encoding="utf-8") as file:
             cls.tools = json.load(file)
 
         for tool in cls.tools:

@@ -1,8 +1,9 @@
 import pygame
+import common
 
 from typing import Any
-from tool import Tool
 from common import GAME_OBJECT_SIZE, TILE_SIZE
+from tool import Tool
 from ui import MultiLineLabel
 from window import Window
 from inventory import Inventory
@@ -13,8 +14,8 @@ class Player(Character):
     def __init__(self) -> None:
         super().__init__()
 
-        self.rect.x = TILE_SIZE * 8
-        self.rect.y = TILE_SIZE * 8
+        self.rect.x = 480
+        self.rect.y = 336
 
         self.move_speed: float = 4
         self.cool_down: float = 0
@@ -24,18 +25,15 @@ class Player(Character):
         self.temperature: float = 36
         self.temperature_update_timer: float = 0
 
-        self.time: float = 0  # seconds
         self.tool: int = 0
         self.inventory_opened: bool = False
         self.inventory: Inventory = Inventory()
         self.inventory.max_stack_count = 5
+        self.inventory.add_one_item(1)
+        self.inventory.add_one_item(2)
 
         self.stats_lbl: MultiLineLabel = MultiLineLabel(
-            [
-                f"Время: {int(self.time / 60)}:{round(self.time) % 60}",
-                f"Здоровье: {self.health}",
-                f"Температура: {self.temperature:.1f}"
-            ],
+            [f"Здоровье: {self.health}"],
             pygame.font.SysFont("Tahoma", 22),
             "#ffffff",
             "#323232"
@@ -105,9 +103,9 @@ class Player(Character):
             self.update_temperature(level_temperature)
             self.temperature_update_timer = 0.1
 
-        self.time += Window.DELTA
-        if self.time >= 24 * 60:
-            self.time = 0
+        common.game_time += Window.DELTA
+        if common.game_time >= 24 * 60:
+            common.game_time = 0
 
         if self.cool_down > 0:
             self.cool_down -= Window.DELTA
@@ -137,12 +135,7 @@ class Player(Character):
 
         if self.inventory_opened:
             self.inventory.draw(Window.ui_surface, [32, 32])
+            self.inventory.draw_item_data(Window.ui_surface, [16, 16])
 
-        # self.stats_lbl.update(
-        #     [
-        #         f"Время: {int(self.time / 60)}:{round(self.time) % 60}",
-        #         f"Здоровье: {self.health}",
-        #         f"Температура: {self.temperature:.1f}"
-        #     ]
-        # )
-        # self.stats_lbl.draw(Window.ui_surface, [0, 0])
+        self.stats_lbl.update([f"Здоровье: {self.health}"])
+        self.stats_lbl.draw(Window.ui_surface, [0, 0])

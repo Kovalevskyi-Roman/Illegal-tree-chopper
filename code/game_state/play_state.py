@@ -4,6 +4,7 @@ from .game_state import GameState
 from camera import Camera
 from character import Player
 from level import LevelManager
+from item import Item
 
 
 class PlayState(GameState):
@@ -19,6 +20,7 @@ class PlayState(GameState):
             self.game_state_manager.change_state(self.game_state_manager.MENU_STATE)
 
         self.level_manager.update_level()
+        Item.update_items(player=self.player, level=self.level_manager.levels.get(self.level_manager.current_level))
 
     def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:
         surface.fill("#0c0c1e")
