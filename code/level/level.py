@@ -7,6 +7,7 @@ from typing import Any
 from camera import Camera
 from character import Player, Character
 from game_object import GameObject
+from window import Window
 from .tile_map import TileMap
 
 
@@ -22,6 +23,8 @@ class Level:
         self.characters: list[Character] = list()
         self.temperature_range: list[int] = list()
         self.temperature: int = 0
+        self.temperature_update_timer: float = 0
+        self.colder_at_night: bool = False
 
         self.load_level()
 
@@ -38,6 +41,7 @@ class Level:
             content = json.load(file)
 
             self.temperature_range = content.get("temperature_range")
+            self.colder_at_night = content.get("colder_at_night")
             self.temperature = random.randint(*self.temperature_range)
 
     def save_level(self) -> None:
@@ -61,10 +65,12 @@ class Level:
             GameObject.draw(surface, game_object, self.camera.offset)
 
     def update(self) -> None:
-        if not int(common.game_time) % 60:
+        self.temperature_update_timer -= Window.DELTA
+        if self.temperature_update_timer <= 0:
             self.temperature = random.randint(*self.temperature_range)
+            self.temperature_update_timer = 30
 
-        self.player.update(self.game_objects, self.camera.offset, self.temperature)
+        self.player.update(self.game_objects, self.camera.offset, self.temperature, self.colder_at_night)
 
         for character in self.characters:
             character.update(player=self.player)

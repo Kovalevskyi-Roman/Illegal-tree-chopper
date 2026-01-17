@@ -25,7 +25,8 @@ class Player(Character):
         self.temperature: float = 36
         self.temperature_update_timer: float = 0
 
-        self.tool: int = 0
+        self.tool: int = 1
+        self.in_bed: bool = False
         self.inventory_opened: bool = False
         self.inventory: Inventory = Inventory()
         self.inventory.max_stack_count = 5
@@ -55,7 +56,16 @@ class Player(Character):
             if game_object_rect.collidepoint(pygame.mouse.get_pos()):
                 game_object["data"]["health"] -= Tool.damage(self.tool)
 
-    def update_temperature(self, level_temperature: int) -> None:
+                if game_object.get("data").get("health") <= 0:
+                    self.inventory.add_item(0, Tool.damage(self.tool))
+
+    def update_temperature(self, level_temperature: int, colder_at_night: bool) -> None:
+        if colder_at_night:
+            if common.game_time < 8 * 60:
+                level_temperature -= 40
+            elif common.game_time < 12 * 60:
+                level_temperature -= 20
+
         if level_temperature < 4:
             level_temperature /= self.cold_protection
 
@@ -69,7 +79,8 @@ class Player(Character):
             self.health -= 0.2
             self.health = round(self.health, 1)
 
-    def update(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2, level_temperature: int) -> None:
+    def update(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2,
+               level_temperature: int, colder_at_night: bool) -> None:
         keys: pygame.key.ScancodeWrapper = pygame.key.get_pressed()
         # movement
         if self.direction.x:
@@ -95,12 +106,12 @@ class Player(Character):
         else:
             self.inventory.selected_item = -1
 
-        if self.direction.length() and not self.inventory_opened:
+        if self.direction.length() and not self.inventory_opened and not self.in_bed:
             self.rect.topleft += self.direction.normalize() * self.move_speed
 
         self.temperature_update_timer -= Window.DELTA
         if self.temperature_update_timer <= 0:
-            self.update_temperature(level_temperature)
+            self.update_temperature(level_temperature, colder_at_night)
             self.temperature_update_timer = 0.1
 
         common.game_time += Window.DELTA

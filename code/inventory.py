@@ -43,7 +43,7 @@ class Inventory:
         if item_id < 0 or item_id > len(Item.items):
             raise ValueError(f"Item with id {item_id} does not exist!")
 
-        for item in self.items:
+        for item in self.items[::-1]:
             if item.get("item") == item_id and item.get("count") > 0:
                 item["count"] -= 1
                 if item.get("count") == 0:

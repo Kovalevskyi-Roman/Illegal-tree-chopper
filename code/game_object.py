@@ -54,7 +54,12 @@ class GameObject:
 
         elif game_object_name == "bed":
             if player.rect.colliderect(game_object_rect):
-                common.game_time += 0.25
+                if pygame.key.get_just_pressed()[pygame.K_e]:
+                    player.in_bed = not player.in_bed
+
+                if player.in_bed:
+                    player.direction = pygame.Vector2(0, 0)
+                    common.game_time += 0.25
 
         elif game_object_name == "chest":
             chest = Chest()

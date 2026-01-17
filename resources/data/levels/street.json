@@ -3,6 +3,7 @@
         -40,
         0
     ],
+    "colder_at_night": true,
     "tile_map": [
         [
             3,

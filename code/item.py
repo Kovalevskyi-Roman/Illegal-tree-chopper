@@ -37,10 +37,17 @@ class Item:
                         f"Время: {int(common.game_time / 60)}:{round(common.game_time) % 60}"
                     ]
                 case "термометр":
+                    temperature = kwargs.get("level").temperature
+                    if kwargs.get("level").colder_at_night:
+                        if common.game_time < 8 * 60:
+                            temperature -= 40
+                        elif common.game_time < 12 * 60:
+                            temperature -= 20
+
                     item["description"] = [
                         "Температура:",
                         f"    Тела: {kwargs.get("player").temperature:.1f}",
-                        f"    Локации: {kwargs.get("level").temperature:.1f}"
+                        f"    Локации: {temperature:.1f}"
                     ]
 
     @classmethod

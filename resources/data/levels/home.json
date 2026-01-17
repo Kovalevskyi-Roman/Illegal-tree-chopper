@@ -3,6 +3,7 @@
         16,
         25
     ],
+    "colder_at_night": false,
     "tile_map": [
         [
             2,
@@ -357,7 +358,7 @@
                 "items": [
                     {
                         "item": 0,
-                        "count": 3
+                        "count": 9
                     }
                 ]
             }
