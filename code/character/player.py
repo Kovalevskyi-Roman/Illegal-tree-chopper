@@ -25,7 +25,7 @@ class Player(Character):
         self.temperature: float = 36
         self.temperature_update_timer: float = 0
 
-        self.tool: int = 1
+        self.tool: int = 0
         self.in_bed: bool = False
         self.inventory_opened: bool = False
         self.inventory: Inventory = Inventory()

@@ -15,7 +15,7 @@
     },
     {
         "name": "Термометр",
-        "texture": "phone.png",
+        "texture": "thermometer.png",
         "description": [""],
         "on_use": null
     },

@@ -62,7 +62,7 @@ class MenuState(GameState):
         else:
             self.__play_button.texture.fill("#a0a0a07f")
         if self.__play_button.is_active():
-            self.game_state_manager.change_state(self.game_state_manager.PLAY_STATE)
+            self.game_state_manager.change_state(self.game_state_manager.TOOL_SHOP_STATE)
 
         if self.__settings_button.is_hovered():
             self.__settings_button.texture.fill("#cdcdcd7f")

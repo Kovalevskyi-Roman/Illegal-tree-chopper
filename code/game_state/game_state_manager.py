@@ -3,6 +3,8 @@ import pygame
 from .game_state import GameState
 from .menu_state import MenuState
 from .play_state import PlayState
+from .tool_shop import ToolShop
+from .item_shop import  ItemShop
 
 from .editor import LevelList
 from .editor import Editor
@@ -12,6 +14,8 @@ from .editor import DataEditor
 class GameStateManager:
     MENU_STATE = MenuState
     PLAY_STATE = PlayState
+    TOOL_SHOP_STATE = ToolShop
+    ITEM_SHOP_STATE = ItemShop
 
     LEVEL_LIST = LevelList
     EDITOR = Editor
@@ -21,6 +25,8 @@ class GameStateManager:
         self.GAME_STATES: dict[type, GameState] = {
             self.MENU_STATE: MenuState(self),
             self.PLAY_STATE: PlayState(self),
+            self.TOOL_SHOP_STATE: ToolShop(self),
+            self.ITEM_SHOP_STATE: ItemShop(self),
 
             self.LEVEL_LIST: LevelList(self),
             self.EDITOR: Editor(self),
