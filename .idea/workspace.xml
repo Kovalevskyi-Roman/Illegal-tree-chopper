@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="temperature behaviour update">
-      <change afterPath="$PROJECT_DIR$/code/game_state/item_shop.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code/game_state/tool_shop.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/items/thermometer.png" afterDir="false" />
+    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="tool shop v1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/character/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/common.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_state/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_state/game_state_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/game_state_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_state/menu_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/menu_state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/window.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/items.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/tools.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/tools.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_state/tool_shop.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/tool_shop.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +135,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768686364462</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="tool shop v1">
+      <option name="closed" value="true" />
+      <created>1768749537935</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1768749537935</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -164,6 +162,7 @@
     <MESSAGE value="items and raw inventory" />
     <MESSAGE value="chest and bed" />
     <MESSAGE value="temperature behaviour update" />
-    <option name="LAST_COMMIT_MESSAGE" value="temperature behaviour update" />
+    <MESSAGE value="tool shop v1" />
+    <option name="LAST_COMMIT_MESSAGE" value="tool shop v1" />
   </component>
 </project>

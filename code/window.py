@@ -5,7 +5,7 @@ from common import FONT_18
 
 class Window:
     SIZE: tuple[int, int] = (1280, 720)  # (1200, 675)
-    FPS: int = 600
+    FPS: int = 60
     DELTA: float = 1 / FPS
 
     running: bool = True
