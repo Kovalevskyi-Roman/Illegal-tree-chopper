@@ -32,6 +32,9 @@ class LevelManager:
 
         print(f"Loaded {len(self.levels)} levels")
 
+    def get_current_level(self) -> Level | None:
+        return self.levels.get(self.current_level, None)
+
     def update_level(self) -> None:
         level = self.levels.get(self.current_level, None)
         if level is None:

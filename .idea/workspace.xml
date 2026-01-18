@@ -4,9 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="tool shop v1">
+    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="tool shop optimization">
+      <change afterPath="$PROJECT_DIR$/resources/textures/game_objects/item_shop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/game_objects/tool_shop.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_state/item_shop.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/item_shop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_state/menu_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/menu_state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_state/play_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/play_state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/game_state/tool_shop.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/tool_shop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/level/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/level/level_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/levels/street.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/street.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768749537935</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="tool shop optimization">
+      <option name="closed" value="true" />
+      <created>1768751278294</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1768751278294</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,6 +180,7 @@
     <MESSAGE value="chest and bed" />
     <MESSAGE value="temperature behaviour update" />
     <MESSAGE value="tool shop v1" />
-    <option name="LAST_COMMIT_MESSAGE" value="tool shop v1" />
+    <MESSAGE value="tool shop optimization" />
+    <option name="LAST_COMMIT_MESSAGE" value="tool shop optimization" />
   </component>
 </project>

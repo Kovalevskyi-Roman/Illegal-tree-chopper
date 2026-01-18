@@ -610,6 +610,24 @@
                     624
                 ]
             }
+        },
+        {
+            "name": "tool_shop",
+            "data": {
+                "position": [
+                    288.0,
+                    576.0
+                ]
+            }
+        },
+        {
+            "name": "item_shop",
+            "data": {
+                "position": [
+                    1056.0,
+                    576.0
+                ]
+            }
         }
     ]
 }

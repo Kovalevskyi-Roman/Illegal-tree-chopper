@@ -5,6 +5,7 @@ from camera import Camera
 from character import Player
 from level import LevelManager
 from item import Item
+from game_object import GameObject
 
 
 class PlayState(GameState):
@@ -23,6 +24,18 @@ class PlayState(GameState):
                 self.game_state_manager.change_state(self.game_state_manager.MENU_STATE)
 
         self.level_manager.update_level()
+        GameObject.update_objects(
+            self.level_manager.get_current_level().game_objects,
+            player=self.player,
+            camera=self.camera,
+            level_manager=self.level_manager,
+            characters=self.level_manager.get_current_level().characters,
+            game_state_manager=self.game_state_manager
+        )
+        self.level_manager.get_current_level().game_objects = list(
+            filter(lambda o: o.get("data").get("health", 1) > 0, self.level_manager.get_current_level().game_objects)
+        )
+
         if self.player.inventory_opened:
             Item.update_items(player=self.player, level=self.level_manager.levels.get(self.level_manager.current_level))
 

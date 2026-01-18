@@ -54,6 +54,9 @@ class ToolShop(GameState):
         if self.__player is None:
             self.__player = self.game_state_manager.GAME_STATES.get(self.game_state_manager.PLAY_STATE).player
 
+        if pygame.key.get_just_pressed()[pygame.K_ESCAPE]:
+            self.game_state_manager.change_state(self.game_state_manager.PLAY_STATE)
+
         if self.hovered_tool != -1:
             self.update_surface()
 

@@ -32,6 +32,7 @@ class GameObject:
         camera = kwargs.get("camera")
         level_manager = kwargs.get("level_manager")
         characters = kwargs.get("characters")
+        game_state_manager = kwargs.get("game_state_manager")
 
         game_object_name = game_object.get("name")
         game_object_position = pygame.Vector2(game_object.get("data").get("position"))
@@ -66,6 +67,18 @@ class GameObject:
             chest.from_game_object(game_object)
             characters.append(chest)
             game_object["data"]["health"] = 0
+
+        elif game_object_name == "tool_shop":
+            if player.rect.colliderect(game_object_rect) and \
+                    pygame.key.get_just_pressed()[pygame.K_e]:
+                game_state_manager.change_state(game_state_manager.TOOL_SHOP_STATE)
+                return True
+
+        elif game_object_name == "item_shop":
+            if player.rect.colliderect(game_object_rect) and \
+                    pygame.key.get_just_pressed()[pygame.K_e]:
+                game_state_manager.change_state(game_state_manager.ITEM_SHOP_STATE)
+                return True
 
         return False
 

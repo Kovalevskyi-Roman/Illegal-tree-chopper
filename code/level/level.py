@@ -87,12 +87,3 @@ class Level:
             self.player.rect.bottom = self.tile_map.height
 
         self.camera.update()
-
-        GameObject.update_objects(
-            self.game_objects,
-            player=self.player,
-            camera=self.camera,
-            level_manager=self.level_manager,
-            characters=self.characters,
-        )
-        self.game_objects = list(filter(lambda o: o.get("data").get("health", 1) > 0, self.game_objects))
