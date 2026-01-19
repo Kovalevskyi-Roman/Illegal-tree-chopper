@@ -2,6 +2,7 @@ import json
 import pygame
 import common
 
+from random import randint
 from typing import Any
 from common import ITEM_SIZE
 
@@ -25,8 +26,23 @@ class Item:
         return cls.items[item_index].get("on_use", None) is not None
 
     @classmethod
-    def use(cls, item_index: int) -> None:
-        ...
+    def use(cls, item_index: int, *args, **kwargs) -> None:
+        item = cls.items[item_index]
+        player = kwargs.get("player")
+
+        player.health += item.get("on_use").get("health", 0)
+        player.temperature += item.get("on_use").get("temperature", 0)
+
+        if item.get("name").lower() == "саженец дерева":
+            kwargs.get("game_objects").append(
+                {
+                    "name": "sapling",
+                    "data": {
+                        "position": list(player.rect.topleft),
+                        "grow_time": randint(15, 50)
+                    }
+                }
+            )
 
     @classmethod
     def update_items(cls, *args, **kwargs) -> None:
@@ -34,14 +50,15 @@ class Item:
             match item.get("name").lower():
                 case "телефон":
                     item["description"] = [
-                        f"Время: {int(common.game_time / 60)}:{round(common.game_time) % 60}"
+                        f"Время: {int(common.game_time / 60)}:{round(common.game_time) % 60}",
+                        f"Деньги: {common.player_money}$"
                     ]
                 case "термометр":
                     temperature = kwargs.get("level").temperature
                     if kwargs.get("level").colder_at_night:
                         if common.game_time < 8 * 60:
                             temperature -= 40
-                        elif common.game_time < 12 * 60:
+                        elif common.game_time < 12 * 60 or common.game_time > 18 * 60:
                             temperature -= 20
 
                     item["description"] = [

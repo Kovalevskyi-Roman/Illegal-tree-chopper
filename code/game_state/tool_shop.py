@@ -12,7 +12,7 @@ class ToolShop(GameState):
     def __init__(self, game_state_manager: "GameStateManager", *args, **kwargs):
         super().__init__(game_state_manager, *args, **kwargs)
 
-        self.surface: pygame.Surface = pygame.Surface(Window.SIZE, flags=pygame.SRCALPHA)
+        self.surface: pygame.Surface = pygame.Surface(Window.SIZE)
         self.caption: Label = Label("Магазин Инструментов", common.FONT_24, "#ffffff")
 
         self.__player: Player | None = None
@@ -26,13 +26,13 @@ class ToolShop(GameState):
         y = self.caption.render.height + 16
         for i in range(len(Tool.tools)):
             tool = Tool.tools[i]
-            color = (127, 127, 127, 127)
+            color = (127, 127, 127)
 
             if i == self.hovered_tool:
-                color = (200, 200, 200, 127)
+                color = (200, 200, 200)
 
             if i == self.__player.tool:
-                color = (127, 255, 127, 127)
+                color = (127, 255, 127)
             pygame.draw.rect(self.surface, color, [x, y, self.width, self.height])
             self.surface.blit(tool.get("texture"), [x, y])
             self.surface.blit(
@@ -85,10 +85,10 @@ class ToolShop(GameState):
         if self.__player is None:
             return
 
+        Window.ui_surface.blit(self.surface, [0, 0])
+
         self.caption.draw(Window.ui_surface, [-1, 8])
         Window.ui_surface.blit(
             common.FONT_24.render(f"Деньги: {common.player_money}$", True, "#ffffff"),
             [8, 8]
         )
-
-        Window.ui_surface.blit(self.surface, [0, 0])

@@ -1,8 +1,10 @@
 import pygame
 import common
 
+from random import randint
 from typing import Any
-from common import GAME_OBJECT_SIZE, TILE_SIZE
+from common import GAME_OBJECT_SIZE
+from item import Item
 from tool import Tool
 from ui import MultiLineLabel
 from window import Window
@@ -39,6 +41,9 @@ class Player(Character):
             "#ffffff",
             "#323232"
         )
+        self.__froze_texture = pygame.image.load("../resources/textures/frozen_effect.png").convert_alpha()
+        self.__froze_texture = pygame.transform.scale(self.__froze_texture, Window.SIZE)
+        self.__froze_texture.set_alpha(0)
 
     def attack_tree(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2) -> None:
         self.cool_down = Tool.cool_down(self.tool)
@@ -57,13 +62,13 @@ class Player(Character):
                 game_object["data"]["health"] -= Tool.damage(self.tool)
 
                 if game_object.get("data").get("health") <= 0:
-                    self.inventory.add_item(0, Tool.damage(self.tool))
+                    self.inventory.add_item(0, randint(1, 5))
 
     def update_temperature(self, level_temperature: int, colder_at_night: bool) -> None:
         if colder_at_night:
             if common.game_time < 8 * 60:
                 level_temperature -= 40
-            elif common.game_time < 12 * 60:
+            elif common.game_time < 12 * 60 or common.game_time > 18 * 60:
                 level_temperature -= 20
 
         if level_temperature < 4:
@@ -78,6 +83,8 @@ class Player(Character):
         elif self.temperature >= 39:
             self.health -= 0.2
             self.health = round(self.health, 1)
+
+        self.__froze_texture.set_alpha(int((255 / (self.temperature * 10)) * (1 / self.temperature) * 150))
 
     def update(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2,
                level_temperature: int, colder_at_night: bool) -> None:
@@ -130,7 +137,7 @@ class Player(Character):
         texture = Tool.texture(self.tool)
         position = self.rect.topleft - pygame.Vector2(self.rect.width, 0) - offset
 
-        if self.cool_down:
+        if self.cool_down > Window.DELTA:
             texture = pygame.transform.rotate(texture, 90)
 
         if self.last_direction.x > 0:
@@ -147,6 +154,8 @@ class Player(Character):
         if self.inventory_opened:
             self.inventory.draw(Window.ui_surface, [32, 32])
             self.inventory.draw_item_data(Window.ui_surface, [16, 16])
+
+        Window.ui_surface.blit(self.__froze_texture, [0, 0])
 
         self.stats_lbl.update([f"Здоровье: {self.health}"])
         self.stats_lbl.draw(Window.ui_surface, [0, 0])

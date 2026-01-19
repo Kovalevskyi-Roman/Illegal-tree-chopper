@@ -7,6 +7,7 @@ from typing import Any
 from camera import Camera
 from character import Player, Character
 from game_object import GameObject
+from item import Item
 from window import Window
 from .tile_map import TileMap
 
@@ -71,6 +72,11 @@ class Level:
             self.temperature_update_timer = 30
 
         self.player.update(self.game_objects, self.camera.offset, self.temperature, self.colder_at_night)
+
+        if self.player.inventory.selected_item != -1:
+            if Item.can_use(self.player.inventory.get_selected_item().get("item")):
+                Item.use(self.player.inventory.get_selected_item().get("item"), player=self.player, game_objects=self.game_objects)
+                self.player.inventory.remove_by_index(self.player.inventory.selected_item)
 
         for character in self.characters:
             character.update(player=self.player)

@@ -39,7 +39,7 @@ class Inventory:
         for _ in range(count):
             self.add_one_item(item_id)
 
-    def remove_one_item(self, item_id: int) -> None:
+    def remove_one_item(self, item_id: int) -> bool:
         if item_id < 0 or item_id > len(Item.items):
             raise ValueError(f"Item with id {item_id} does not exist!")
 
@@ -49,11 +49,33 @@ class Inventory:
                 if item.get("count") == 0:
                     self.items.remove(item)
 
-                break
+                return True
+
+        return False
 
     def remove_item(self, item_id: int, count: int) -> None:
         for _ in range(count):
-            self.remove_one_item(item_id)
+            if not self.remove_one_item(item_id):
+                break
+
+    def remove_by_index(self, index: int) -> None:
+        self.items[index]["count"] -= 1
+        self.selected_item = -1
+        self.hovered_item = -1
+        if self.items[index]["count"] <= 0:
+            self.items.pop(index)
+
+    def get_selected_item(self) -> dict[str, Any] | None:
+        if self.selected_item == -1:
+            return None
+
+        return self.items[self.selected_item]
+
+    def get_hovered_item(self) -> dict[str, Any] | None:
+        if self.hovered_item == -1:
+            return None
+
+        return self.items[self.hovered_item]
 
     def update(self, position: pygame.typing.SequenceLike[int | float]) -> None:
         position = pygame.Vector2(position)

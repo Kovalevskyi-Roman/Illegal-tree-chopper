@@ -80,6 +80,27 @@ class GameObject:
                 game_state_manager.change_state(game_state_manager.ITEM_SHOP_STATE)
                 return True
 
+        elif game_object_name == "selling":
+            if player.rect.colliderect(game_object_rect) and \
+                    pygame.key.get_just_pressed()[pygame.K_e]:
+
+                while player.inventory.remove_one_item(0):
+                    common.player_money += 5
+
+        elif game_object_name == "sapling":
+            game_object.get("data")["grow_time"] -= Window.DELTA
+            if game_object.get("data")["grow_time"] <= 0:
+                level_manager.get_current_level().game_objects.append(
+                    {
+                        "name": "spruce_tree",
+                        "data": {
+                            "position": list(game_object_position),
+                            "health": 10
+                        }
+                    }
+                )
+                game_object.get("data")["health"] = 0
+
         return False
 
     @classmethod
