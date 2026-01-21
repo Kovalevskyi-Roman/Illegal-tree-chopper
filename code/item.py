@@ -2,8 +2,8 @@ import json
 import pygame
 import common
 
-from random import randint
 from typing import Any
+from random import randint
 from common import ITEM_SIZE
 
 
@@ -55,10 +55,11 @@ class Item:
                     ]
                 case "термометр":
                     temperature = kwargs.get("level").temperature
+                    # Меняется ли температура на уровне при изменении игрового времени
                     if kwargs.get("level").colder_at_night:
-                        if common.game_time < 8 * 60:
+                        if common.game_time < 8 * 60:  # До 8 утра
                             temperature -= 40
-                        elif common.game_time < 12 * 60 or common.game_time > 18 * 60:
+                        elif common.game_time < 12 * 60 or common.game_time > 18 * 60:  # До 12 дня или после 6 вечера
                             temperature -= 20
 
                     item["description"] = [

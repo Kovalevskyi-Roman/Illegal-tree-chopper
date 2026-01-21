@@ -1,13 +1,13 @@
 import json
 import pygame
 
-from copy import deepcopy
 from typing import Any
-from game_state import GameState
-from game_state.editor.side_panel import SidePanel
+from copy import deepcopy
+from game_state.game_state import GameState
+from .side_panel import SidePanel
+from common import GAME_OBJECT_SIZE, TILE_SIZE
 from level import TileMap, Level, TileManager
 from game_object import GameObject
-from common import GAME_OBJECT_SIZE, TILE_SIZE
 from window import Window
 
 
@@ -22,9 +22,9 @@ class Editor(GameState):
         self.scroll_speed: int = 10
         self.selected_tile: int = 0
         self.selected_game_object: int = -1
-        self.safe_tile_deleting = True
+        self.safe_tile_deleting = True  # Если True заменяет тайл на пустой, иначе удаляет его
         self.move_game_object: bool = False
-        self.snap_to_grid: bool = True
+        self.snap_to_grid: bool = True  # Привязка позиции перемещаемого игрового объекта к сетке тайлмапа
 
         self.side_panel: SidePanel = SidePanel(game_state_manager, self)
 
@@ -40,6 +40,7 @@ class Editor(GameState):
         self.snap_to_grid: bool = True
 
     def save(self) -> None:
+        # Удаляет пустые рядки в tilemap
         self.tile_map.tiles = list(filter(lambda row: len(row) > 0, self.tile_map.tiles))
 
         content: dict | None = None
@@ -52,14 +53,15 @@ class Editor(GameState):
         with open(f"../resources/data/levels/{self.level_name}.json", "w") as file:
             json.dump(content, file, indent=4)
 
+        # Обновляет данные о загруженных уровнях
         self.game_state_manager.GAME_STATES.get(self.game_state_manager.PLAY_STATE).level_manager.load_levels()
         print(f"Level '{self.level_name}.json' saved")
 
     def update(self, *args, **kwargs) -> None:
-        key = pygame.key.get_pressed()
+        key_press = pygame.key.get_pressed()
         key_just_press = pygame.key.get_just_pressed()
         mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-        mouse_pressed = pygame.mouse.get_pressed()
+        mouse_press = pygame.mouse.get_pressed()
 
         if key_just_press[pygame.K_ESCAPE]:
             if self.selected_game_object != -1:
@@ -75,24 +77,27 @@ class Editor(GameState):
             self.snap_to_grid = not self.snap_to_grid
 
         elif key_just_press[pygame.K_c] and self.selected_game_object != -1:
+            # Создаёт копию выбранного игрового объекта
             self.game_objects.append(deepcopy(self.game_objects[self.selected_game_object]))
             self.move_game_object = True
             self.selected_game_object = len(self.game_objects) - 1
 
         elif (key_just_press[pygame.K_BACKSPACE] or key_just_press[pygame.K_DELETE]) and self.selected_game_object != -1:
+            # Удаляет выбранный игровой объект
             self.game_objects.pop(self.selected_game_object)
             self.selected_game_object = -1
 
-        if key[pygame.K_LCTRL] and key_just_press[pygame.K_s]:
+        if key_press[pygame.K_LCTRL] and key_just_press[pygame.K_s]:
             self.save()
 
-        if key[pygame.K_d]:
+        # Перемещение камеры
+        if key_press[pygame.K_d]:
             self.offset.x += self.scroll_speed
-        elif key[pygame.K_a]:
+        elif key_press[pygame.K_a]:
             self.offset.x -= self.scroll_speed
-        if key[pygame.K_w]:
+        if key_press[pygame.K_w]:
             self.offset.y -= self.scroll_speed
-        elif key[pygame.K_s] and not key[pygame.K_LCTRL]:
+        elif key_press[pygame.K_s] and not key_press[pygame.K_LCTRL]:
             self.offset.y += self.scroll_speed
 
         if self.selected_game_object == -1:
@@ -107,7 +112,7 @@ class Editor(GameState):
                 self.game_objects[self.selected_game_object]["data"]["position"] = list(
                     (mouse_pos + self.offset) // TILE_SIZE * TILE_SIZE
                 )
-
+        # При прокрутке колеса мыши меняет выбранный талй
         scroll = tuple(filter(lambda e: e.type == pygame.MOUSEWHEEL, Window.events))
         if scroll:
             self.selected_tile -= scroll[0].y
@@ -119,7 +124,9 @@ class Editor(GameState):
 
         self.side_panel.update()
 
-        if mouse_pressed[0] and mouse_pos.x < Window.SIZE[0] - self.side_panel.width:
+        # Если нажата ЛКМ и курсор вне боковой панели
+        if mouse_press[0] and mouse_pos.x < Window.SIZE[0] - self.side_panel.width:
+            # Проверяет выделение игрового объекта
             for i in range(len(self.game_objects)):
                 game_object = self.game_objects[i]
                 rect = pygame.Rect(game_object.get("data").get("position"), [GAME_OBJECT_SIZE, GAME_OBJECT_SIZE])
@@ -129,26 +136,28 @@ class Editor(GameState):
                     self.selected_game_object = i
                     return
 
+            # Редактирование/Добавление тайлов в тайлмапе
             self.selected_game_object = -1
             mouse_tile_pos = ((mouse_pos + self.offset) // TILE_SIZE)
 
             if mouse_tile_pos.y < 0 or mouse_tile_pos.x < 0:
                 return
 
+            # Если курсор ниже самого последнего рядка в тайлмапе
             while mouse_tile_pos.y > len(self.tile_map.tiles) - 1:
                 self.tile_map.tiles.append(list())
-
+            # Если курсор правее самой последней колонки в тайлмапе
             while mouse_tile_pos.x > len(self.tile_map.tiles[int(mouse_tile_pos.y)]) - 1:
                 self.tile_map.tiles[int(mouse_tile_pos.y)].append(self.selected_tile)
 
             self.tile_map.tiles[int(mouse_tile_pos.y)][int(mouse_tile_pos.x)] = self.selected_tile
 
-        elif mouse_pressed[2] and mouse_pos.x < Window.SIZE[0] - self.side_panel.width:
+        # Удаляет/Заменяет тайл если нажата ПКМ и курсор вне боковой панели
+        elif mouse_press[2] and mouse_pos.x < Window.SIZE[0] - self.side_panel.width:
             mouse_tile_pos = ((mouse_pos + self.offset) // TILE_SIZE)
-
+            # Если курсор вне тайлмапа
             if mouse_tile_pos.y < 0 or mouse_tile_pos.x < 0 or mouse_tile_pos.y > len(self.tile_map.tiles) - 1:
                 return
-
             if mouse_tile_pos.x > len(self.tile_map.tiles[int(mouse_tile_pos.y)]) - 1:
                 return
 

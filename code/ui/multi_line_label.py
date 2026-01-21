@@ -29,9 +29,11 @@ class MultiLineLabel:
 
         for i in range(len(self.renders)):
             render = self.renders[i]
-            label_pos = pygame.Vector2(Window.SIZE[0] / 2 - render.width / 2,
-                                       Window.SIZE[1] / 2 - render.height / 2)
-
+            # Устанавливает лейбл по центру экрана.
+            label_pos = pygame.Vector2(
+                Window.SIZE[0] / 2 - render.width / 2,
+                Window.SIZE[1] / 2 - render.height / 2
+            )
             if position.x != -1:
                 label_pos.x = position.x
             if position.y != -1:

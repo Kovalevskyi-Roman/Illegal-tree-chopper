@@ -1,8 +1,8 @@
 import json
 import pygame
 
-from window import Window
 from .tile_manager import TileManager
+from window import Window
 from common import TILE_SIZE
 
 
@@ -26,8 +26,10 @@ class TileMap:
                 continue
 
             for column in range(len(self.tiles[row])):
+                # Пустой тайл без текстуры
                 if self.tiles[row][column] == -1:
                     continue
+
                 tile_texture = TileManager.tile_textures[self.tiles[row][column]]
                 tile_position = pygame.Vector2(column * TILE_SIZE, row * TILE_SIZE)
 

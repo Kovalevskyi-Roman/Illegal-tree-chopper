@@ -1,15 +1,13 @@
 import json
-import random
 import pygame
-import common
 
 from typing import Any
+from random import randint
+from .tile_map import TileMap
 from camera import Camera
 from character import Player, Character
 from game_object import GameObject
-from item import Item
 from window import Window
-from .tile_map import TileMap
 
 
 class Level:
@@ -22,38 +20,29 @@ class Level:
         self.tile_map: TileMap | None = None
         self.game_objects: list[dict[str, Any]] = list()
         self.characters: list[Character] = list()
-        self.temperature_range: list[int] = list()
+        self.temperature_range: list[int] = list()  # [min, max]
         self.temperature: int = 0
-        self.temperature_update_timer: float = 0
+        self.temperature_change_timer: float = 0
         self.colder_at_night: bool = False
 
         self.load_level()
 
     @classmethod
     def load_game_objects(cls, file_name: str) -> list[dict[str, Any]]:
+        """Возвращает список всех игровых объектов на уровне 'file_name'."""
         with open(f"../resources/data/levels/{file_name}.json", "r") as file:
             return json.load(file).get("game_objects")
 
     def load_level(self) -> None:
-        self.tile_map: TileMap = TileMap(self.file_name)
-        self.game_objects: list[dict[str, Any]] = self.load_game_objects(self.file_name)
+        self.tile_map = TileMap(self.file_name)
+        self.game_objects = self.load_game_objects(self.file_name)
 
         with open(f"../resources/data/levels/{self.file_name}.json", "r") as file:
             content = json.load(file)
 
             self.temperature_range = content.get("temperature_range")
             self.colder_at_night = content.get("colder_at_night")
-            self.temperature = random.randint(*self.temperature_range)
-
-    def save_level(self) -> None:
-        content: dict | None = None
-        with open(f"../resources/data/levels/{self.file_name}.json", "r") as file:
-            content = json.load(file)
-
-        content["temperature_range"] = self.temperature_range
-        content["game_objects"] = self.game_objects
-        with open(f"../resources/data/levels/{self.file_name}.json", "w") as file:
-            json.dump(content, file, indent=4)
+            self.temperature = randint(self.temperature_range[0], self.temperature_range[1])
 
     def draw(self, surface: pygame.Surface) -> None:
         self.tile_map.draw(surface, self.camera.offset)
@@ -66,27 +55,22 @@ class Level:
             GameObject.draw(surface, game_object, self.camera.offset)
 
     def update(self) -> None:
-        self.temperature_update_timer -= Window.DELTA
-        if self.temperature_update_timer <= 0:
-            self.temperature = random.randint(*self.temperature_range)
-            self.temperature_update_timer = 30
+        # Обновляет температуру каждые 30 секунд
+        self.temperature_change_timer -= Window.DELTA
+        if self.temperature_change_timer <= 0:
+            self.temperature = randint(*self.temperature_range)
+            self.temperature_change_timer = 30
 
         self.player.update(self.game_objects, self.camera.offset, self.temperature, self.colder_at_night)
-
-        if self.player.inventory.selected_item != -1:
-            if Item.can_use(self.player.inventory.get_selected_item().get("item")):
-                Item.use(self.player.inventory.get_selected_item().get("item"), player=self.player, game_objects=self.game_objects)
-                self.player.inventory.remove_by_index(self.player.inventory.selected_item)
 
         for character in self.characters:
             character.update(player=self.player)
 
-        # border
+        # Границы уровня
         if self.player.rect.x < 0:
             self.player.rect.x = 0
         if self.player.rect.y < 0:
             self.player.rect.y = 0
-
         if self.player.rect.right > self.tile_map.width:
             self.player.rect.right = self.tile_map.width
         if self.player.rect.bottom > self.tile_map.height:

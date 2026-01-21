@@ -1,11 +1,11 @@
 import pygame
 import common
 
+from .game_state import GameState
 from character import Player
 from tool import Tool
 from ui import Label, MultiLineLabel
 from window import Window
-from .game_state import GameState
 
 
 class ToolShop(GameState):
@@ -16,8 +16,8 @@ class ToolShop(GameState):
         self.caption: Label = Label("Магазин Инструментов", common.FONT_24, "#ffffff")
 
         self.__player: Player | None = None
-        self.width: int = 180
-        self.height: int = 200
+        self.__width: int = 180
+        self.__height: int = 200
 
         self.hovered_tool: int = 0
 
@@ -26,45 +26,48 @@ class ToolShop(GameState):
         y = self.caption.render.height + 16
         for i in range(len(Tool.tools)):
             tool = Tool.tools[i]
-            color = (127, 127, 127)
 
+            bg_color = (127, 127, 127)
             if i == self.hovered_tool:
-                color = (200, 200, 200)
-
+                bg_color = (200, 200, 200)
             if i == self.__player.tool:
-                color = (127, 255, 127)
-            pygame.draw.rect(self.surface, color, [x, y, self.width, self.height])
+                bg_color = (127, 255, 127)
+
+            pygame.draw.rect(self.surface, bg_color, [x, y, self.__width, self.__height])
             self.surface.blit(tool.get("texture"), [x, y])
             self.surface.blit(
                 common.FONT_18.render(f"{tool.get("price")}$", True, "#ffffff"),
-                [x + self.width - common.FONT_18.size(f"{tool.get("price")}$")[0] - 4, y + 4]
+                [x + self.__width - common.FONT_18.size(f"{tool.get("price")}$")[0] - 4, y + 4]
             )
             MultiLineLabel(
-                [tool.get("name"), f"Урон: {tool.get("damage")}", f"Радиус: {tool.get("range")}", f"Перезарядка: {tool.get("cool_down")}"],
+                [
+                    tool.get("name"), f"Урон: {tool.get("damage")}",
+                    f"Радиус: {tool.get("range")}", f"Перезарядка: {tool.get("cool_down")}"
+                ],
                 common.FONT_18,
                 "#ffffff"
             ).draw(self.surface, [x + 4, y + tool.get("texture").height + 4])
 
-            x += self.width + 8
-            if x + self.width > Window.SIZE[0]:
+            x += self.__width + 8
+            if x + self.__width > Window.SIZE[0]:
                 x = 8
-                y += self.height + 8
+                y += self.__height + 8
 
     def update(self, *args, **kwargs) -> None:
-        if self.__player is None:
-            self.__player = self.game_state_manager.GAME_STATES.get(self.game_state_manager.PLAY_STATE).player
-
         if pygame.key.get_just_pressed()[pygame.K_ESCAPE]:
             self.game_state_manager.change_state(self.game_state_manager.PLAY_STATE)
 
+        if self.__player is None:
+            self.__player = self.game_state_manager.GAME_STATES.get(self.game_state_manager.PLAY_STATE).player
+
         if self.hovered_tool != -1:
             self.update_surface()
+            self.hovered_tool = -1
 
-        self.hovered_tool = -1
-        tool_rect = pygame.Rect(8, self.caption.render.height + 16, self.width, self.height)
+        tool_rect = pygame.Rect(8, self.caption.render.height + 16, self.__width, self.__height)
         for i in range(len(Tool.tools)):
             tool = Tool.tools[i]
-
+            # Покупка инструмента
             if pygame.mouse.get_just_pressed()[0] and tool_rect.collidepoint(pygame.mouse.get_pos()) and \
                     common.player_money >= tool.get("price"):
                 common.player_money -= tool.get("price")
@@ -76,10 +79,10 @@ class ToolShop(GameState):
                 self.hovered_tool = i
                 break
 
-            tool_rect.x += self.width + 8
+            tool_rect.x += self.__width + 8
             if tool_rect.right > Window.SIZE[0]:
                 tool_rect.x = 8
-                tool_rect.y += self.height + 8
+                tool_rect.y += self.__height + 8
 
     def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:
         if self.__player is None:

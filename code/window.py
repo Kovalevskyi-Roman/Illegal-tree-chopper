@@ -24,7 +24,7 @@ class Window:
         self.__fps_update_timer -= self.DELTA
         if self.__fps_update_timer <= 0:
             self.__fps = round(self.clock.get_fps())
-            self.__fps_update_timer = 0.2
+            self.__fps_update_timer = 0.2  # Обновляет FPS отображаемый на экране каждые 0.2 секунды
 
         self.ui_surface.blit(
             FONT_18.render(f"FPS: {self.__fps}", True, "white", "black"),

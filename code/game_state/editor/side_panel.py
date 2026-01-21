@@ -1,9 +1,9 @@
 import pygame
 
+from common import TILE_SIZE, FONT_20
 from ui import Button, Label
 from window import Window
 from level import TileManager
-from common import TILE_SIZE, FONT_20
 
 
 class SidePanel:
@@ -53,6 +53,7 @@ class SidePanel:
         self.move_game_object_lbl.update(f"[M]ove: {self.editor.move_game_object}")
         self.snap_to_grid_lbl.update(f"To [G]rid: {self.editor.snap_to_grid}")
 
+        # Обновление всех кнопок
         if self.safe_tile_del_btn.is_hovered():
             self.safe_tile_del_btn.texture.fill("#545454")
         else:
@@ -75,7 +76,6 @@ class SidePanel:
             self.new_game_object_btn.texture.fill("#545454")
         else:
             self.new_game_object_btn.texture.fill("#323232")
-
         if self.new_game_object_btn.is_active() and self.editor.selected_game_object == -1:
             self.editor.game_objects.append(
                 {

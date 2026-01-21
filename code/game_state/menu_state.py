@@ -1,9 +1,9 @@
 import pygame
 
-from ui import Label, Button
-from window import Window
 from .game_state import GameState
 from common import FONT_30, FONT_24
+from ui import Label, Button
+from window import Window
 
 
 class MenuState(GameState):

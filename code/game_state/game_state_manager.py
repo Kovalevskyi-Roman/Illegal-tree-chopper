@@ -4,7 +4,7 @@ from .game_state import GameState
 from .menu_state import MenuState
 from .play_state import PlayState
 from .tool_shop import ToolShop
-from .item_shop import  ItemShop
+from .item_shop import ItemShop
 
 from .editor import LevelList
 from .editor import Editor
@@ -12,6 +12,8 @@ from .editor import DataEditor
 
 
 class GameStateManager:
+    # Чтобы избежать цикличного импорта все типы игровых состояний записаны как константы в этом классе.
+    # Доступ к этому классу есть у каждого игрового состояния.
     MENU_STATE = MenuState
     PLAY_STATE = PlayState
     TOOL_SHOP_STATE = ToolShop

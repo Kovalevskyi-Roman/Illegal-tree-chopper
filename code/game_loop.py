@@ -16,13 +16,15 @@ class GameLoop:
                 Window.running = False
 
     def update(self) -> None:
-        self.window.clock.tick(Window.FPS)
+        self.window.clock.tick(Window.FPS)  # Устанавливает FPS игры на значение Window.FPS
         self.game_state_manager.update()
 
     def draw(self) -> None:
         self.window.clear("#000000")
+
         self.game_state_manager.draw(self.window.surface)
         self.window.draw_ui()
+
         pygame.display.update()
 
     def run(self) -> None:

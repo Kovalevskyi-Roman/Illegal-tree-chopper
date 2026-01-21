@@ -1,10 +1,10 @@
 import pygame
 
 from typing import Any
-from window import Window
-from common import GAME_OBJECT_SIZE
-from inventory import Inventory
 from .character import Character
+from common import GAME_OBJECT_SIZE
+from window import Window
+from inventory import Inventory
 
 
 class Chest(Character):
@@ -16,8 +16,9 @@ class Chest(Character):
 
         self.inventory: Inventory = Inventory()
         self.inventory.max_length = 100
-
         self.inventory_opened: bool = False
+        self.inventory_position: tuple[int, int] = (274, 32)
+
         self.texture = pygame.image.load("../resources/textures/game_objects/chest.png").convert_alpha()
         self.texture = pygame.transform.scale(self.texture, self.rect.size)
 
@@ -36,17 +37,19 @@ class Chest(Character):
 
     def update(self, *args, **kwargs) -> None:
         player = kwargs.get("player")
+        # Если инвентари игрока не открыт, то сундук не обновляется
         if not player.inventory_opened:
             self.inventory_opened = False
             return
-
+        # Если игрок не подошёл к сундуку, то он не обновляется
         if not self.rect.colliderect(player.rect):
             self.inventory_opened = False
             return
 
         self.inventory_opened = True
-        self.inventory.update([274, 32])
+        self.inventory.update(self.inventory_position)
 
+        # Перемещает выбранный предмет из инвентаря игрока в сундук
         if player.inventory.selected_item != -1:
             selected_item = player.inventory.items[player.inventory.selected_item]
             self.inventory.add_item(
@@ -57,6 +60,7 @@ class Chest(Character):
             player.inventory.selected_item = -1
             player.inventory.hovered_item = -1
 
+        # Перемещает выбранный предмет из сундука в инвентарь игрока
         elif self.inventory.selected_item != -1:
             selected_item = self.inventory.items[self.inventory.selected_item]
             player.inventory.add_item(
@@ -71,5 +75,5 @@ class Chest(Character):
         surface.blit(self.texture, self.rect.topleft - offset)
 
         if self.inventory_opened:
-            self.inventory.draw(Window.ui_surface, [274, 32])
+            self.inventory.draw(Window.ui_surface, self.inventory_position)
             self.inventory.draw_item_data(Window.ui_surface, [16, 16])

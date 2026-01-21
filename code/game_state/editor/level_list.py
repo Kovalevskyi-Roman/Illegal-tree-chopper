@@ -94,7 +94,7 @@ class LevelList(GameState):
             self.levels = self.load_levels()
             self.level_buttons = self.create_level_buttons()
             self.new_level_entry.text.clear()
-            self.new_level_entry.cursor = -1
+            self.new_level_entry.cursor_pos = -1
             self.new_level_entry.active = False
 
         for i in range(len(self.level_buttons)):

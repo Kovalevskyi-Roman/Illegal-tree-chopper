@@ -1,7 +1,6 @@
 import pygame
 
 from collections.abc import Callable
-
 from window import Window
 
 
@@ -19,6 +18,7 @@ class Button:
         self.render: pygame.Surface | None = None
         self.update_render()
 
+        # Устанавливает кнопку по центру экрана.
         if self.rect.x == -1:
             self.rect.x = Window.SIZE[0] / 2 - self.rect.width / 2
 
@@ -31,7 +31,10 @@ class Button:
     def is_active(self) -> bool:
         return bool(self.is_hovered() and self.activate_func()[self.key])
 
-    def update_render(self) -> None:
+    def update_render(self, text: str = "") -> None:
+        if text:
+            self.text = text
+
         self.render = self.font.render(self.text, True, self.f_color)
 
     def draw(self, surface: pygame.Surface) -> None:

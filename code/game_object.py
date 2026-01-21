@@ -1,8 +1,8 @@
 import pygame
 import common
 
-from pathlib import Path
 from typing import Any
+from pathlib import Path
 from common import GAME_OBJECT_SIZE
 from character import Chest
 from window import Window
@@ -28,6 +28,11 @@ class GameObject:
 
     @classmethod
     def update(cls, game_object: dict[str, Any], *args, **kwargs) -> bool:
+        """
+        Обновляет один игровой объект. Возвращает True если
+        текущий уровень или игровое состояние должно изменится.
+        Иначе возвращает False.
+        """
         player = kwargs.get("player")
         camera = kwargs.get("camera")
         level_manager = kwargs.get("level_manager")
@@ -39,8 +44,7 @@ class GameObject:
         game_object_rect = pygame.Rect(game_object_position, [GAME_OBJECT_SIZE, GAME_OBJECT_SIZE])
 
         if game_object_name == "door":
-            if player.rect.colliderect(game_object_rect) and \
-                    pygame.key.get_just_pressed()[pygame.K_e]:
+            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
 
                 if game_object.get("data").get("player_position", None) is not None:
                     player.rect.topleft = game_object.get("data").get("player_position")
@@ -63,31 +67,29 @@ class GameObject:
                     common.game_time += 0.25
 
         elif game_object_name == "chest":
+            # Сундук превращается из game_object-а в character-а.
             chest = Chest()
             chest.from_game_object(game_object)
             characters.append(chest)
             game_object["data"]["health"] = 0
 
         elif game_object_name == "tool_shop":
-            if player.rect.colliderect(game_object_rect) and \
-                    pygame.key.get_just_pressed()[pygame.K_e]:
+            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
                 game_state_manager.change_state(game_state_manager.TOOL_SHOP_STATE)
                 return True
 
         elif game_object_name == "item_shop":
-            if player.rect.colliderect(game_object_rect) and \
-                    pygame.key.get_just_pressed()[pygame.K_e]:
+            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
                 game_state_manager.change_state(game_state_manager.ITEM_SHOP_STATE)
                 return True
 
         elif game_object_name == "selling":
-            if player.rect.colliderect(game_object_rect) and \
-                    pygame.key.get_just_pressed()[pygame.K_e]:
-
+            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
                 while player.inventory.remove_one_item(0):
                     common.player_money += 5
 
         elif game_object_name == "sapling":
+            # Если саженец вырос, то он удаляет себя и добавляет дерево на своём месте
             game_object.get("data")["grow_time"] -= Window.DELTA
             if game_object.get("data")["grow_time"] <= 0:
                 level_manager.get_current_level().game_objects.append(
@@ -105,12 +107,17 @@ class GameObject:
 
     @classmethod
     def update_objects(cls, game_objects: list[dict[str, Any]], *args, **kwargs) -> None:
+        """
+        Обновляет все игровые объекты на текущем уровне.
+        Если cls.update() возвращает True то все следующие объекты не обновляются.
+        """
         for game_object in game_objects:
             if cls.update(game_object, *args, **kwargs):
                 break
 
     @classmethod
     def draw(cls, surface: pygame.Surface, game_object: dict, offset: pygame.Vector2) -> None:
+        """Отрисовывает один игровой объект"""
         position = pygame.Vector2(game_object.get("data").get("position"))
         screen_position = position - offset
 

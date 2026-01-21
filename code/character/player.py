@@ -3,13 +3,13 @@ import common
 
 from random import randint
 from typing import Any
+from .character import Character
 from common import GAME_OBJECT_SIZE
 from item import Item
 from tool import Tool
 from ui import MultiLineLabel
 from window import Window
 from inventory import Inventory
-from .character import Character
 
 
 class Player(Character):
@@ -20,18 +20,20 @@ class Player(Character):
         self.rect.y = 336
 
         self.move_speed: float = 4
-        self.cool_down: float = 0
         self.last_direction: pygame.Vector2 = pygame.Vector2(0, 0)
+        self.in_bed: bool = False
 
         self.cold_protection: float = 1
         self.temperature: float = 36
         self.temperature_update_timer: float = 0
 
         self.tool: int = 0
-        self.in_bed: bool = False
+        self.tool_cool_down: float = 0
+
         self.inventory_opened: bool = False
         self.inventory: Inventory = Inventory()
         self.inventory.max_stack_count = 5
+        # Добавляет телефон и термометр в инвентарь
         self.inventory.add_one_item(1)
         self.inventory.add_one_item(2)
 
@@ -41,12 +43,13 @@ class Player(Character):
             "#ffffff",
             "#323232"
         )
+        # Текстура замерзания игрока
         self.__froze_texture = pygame.image.load("../resources/textures/frozen_effect.png").convert_alpha()
         self.__froze_texture = pygame.transform.scale(self.__froze_texture, Window.SIZE)
         self.__froze_texture.set_alpha(0)
 
     def attack_tree(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2) -> None:
-        self.cool_down = Tool.cool_down(self.tool)
+        self.tool_cool_down = Tool.cool_down(self.tool)
         for game_object in game_objects:
             if "tree" not in game_object.get("name"):
                 continue
@@ -61,14 +64,16 @@ class Player(Character):
             if game_object_rect.collidepoint(pygame.mouse.get_pos()):
                 game_object["data"]["health"] -= Tool.damage(self.tool)
 
+                # Если дерево было срублено добавляет от 1 до 5 древесины в инвентарь
                 if game_object.get("data").get("health") <= 0:
                     self.inventory.add_item(0, randint(1, 5))
 
     def update_temperature(self, level_temperature: int, colder_at_night: bool) -> None:
+        # Меняется ли температура на уровне при изменении игрового времени
         if colder_at_night:
-            if common.game_time < 8 * 60:
+            if common.game_time < 8 * 60:  # До 8 утра
                 level_temperature -= 40
-            elif common.game_time < 12 * 60 or common.game_time > 18 * 60:
+            elif common.game_time < 12 * 60 or common.game_time > 18 * 60:  # До 12 дня или после 6 вечера
                 level_temperature -= 20
 
         if level_temperature < 4:
@@ -77,19 +82,18 @@ class Player(Character):
         self.temperature += (level_temperature - self.temperature) / 1000
         self.temperature = round(self.temperature, 3)
 
-        if self.temperature < 4:
+        # Опасная температура при которой игрок получает урон
+        if self.temperature < 4 or self.temperature >= 39:
             self.health -= 0.1
             self.health = round(self.health, 1)
-        elif self.temperature >= 39:
-            self.health -= 0.2
-            self.health = round(self.health, 1)
 
+        # Чем меньше температура игрока тем больше непрозрачность текстуры замерзания
         self.__froze_texture.set_alpha(int((255 / (self.temperature * 10)) * (1 / self.temperature) * 150))
 
     def update(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2,
                level_temperature: int, colder_at_night: bool) -> None:
         keys: pygame.key.ScancodeWrapper = pygame.key.get_pressed()
-        # movement
+        # Передвижение игрока
         if self.direction.x:
             self.last_direction.x = self.direction.x
         if self.direction.y:
@@ -105,41 +109,51 @@ class Player(Character):
         elif keys[pygame.K_s]:
             self.direction.y = 1
 
+        # Обновление инвентаря
         if pygame.key.get_just_pressed()[pygame.K_TAB]:
             self.inventory_opened = not self.inventory_opened
 
         if self.inventory_opened:
             self.inventory.update([32, 32])
-        else:
-            self.inventory.selected_item = -1
+            # Может ли игрок использовать предмет
+            if self.inventory.selected_item != -1:
+                if Item.can_use(self.inventory.get_selected_item().get("item")):
+                    Item.use(
+                        self.inventory.get_selected_item().get("item"),
+                        player=self,
+                        game_objects=game_objects
+                    )
+                    self.inventory.remove_by_index(self.inventory.selected_item)
 
+        # Обновление позиции игрока
         if self.direction.length() and not self.inventory_opened and not self.in_bed:
             self.rect.topleft += self.direction.normalize() * self.move_speed
 
+        # Обновляет температуру игрока каждые 100 миллисекунд
         self.temperature_update_timer -= Window.DELTA
         if self.temperature_update_timer <= 0:
             self.update_temperature(level_temperature, colder_at_night)
             self.temperature_update_timer = 0.1
 
-        common.game_time += Window.DELTA
-        if common.game_time >= 24 * 60:
-            common.game_time = 0
-
-        if self.cool_down > 0:
-            self.cool_down -= Window.DELTA
+        # Обновляет перезарядку инструмента
+        if self.tool_cool_down > 0:
+            self.tool_cool_down -= Window.DELTA
         else:
-            self.cool_down = 0
+            self.tool_cool_down = 0
 
-        if not self.cool_down and pygame.mouse.get_pressed()[0] and not self.inventory_opened:
+        # Атакует ли игрок дерево
+        if not self.tool_cool_down and pygame.mouse.get_pressed()[0] and not self.inventory_opened:
             self.attack_tree(game_objects, offset)
 
     def draw_tool(self, surface: pygame.Surface, offset: pygame.Vector2) -> None:
         texture = Tool.texture(self.tool)
         position = self.rect.topleft - pygame.Vector2(self.rect.width, 0) - offset
 
-        if self.cool_down > Window.DELTA:
+        if self.tool_cool_down > Window.DELTA:
             texture = pygame.transform.rotate(texture, 90)
 
+        # Если игрок смотрит вправо отрисовывает инструмент справа от игрока
+        # (По умолчанию инструмент отрисовывается слева от игрока)
         if self.last_direction.x > 0:
             position = self.rect.topright - offset
             texture = pygame.transform.flip(texture, True, False)

@@ -1,6 +1,8 @@
 import pygame
+import common
 
 from .game_state import GameState
+from window import Window
 from camera import Camera
 from character import Player
 from level import LevelManager
@@ -23,21 +25,28 @@ class PlayState(GameState):
             else:
                 self.game_state_manager.change_state(self.game_state_manager.MENU_STATE)
 
+        # Обновление игрового времени
+        common.game_time += Window.DELTA
+        if common.game_time >= 24 * 60:
+            common.game_time = 0
+
         self.level_manager.update_level()
+        current_level = self.level_manager.get_current_level()
         GameObject.update_objects(
-            self.level_manager.get_current_level().game_objects,
+            current_level.game_objects,
             player=self.player,
             camera=self.camera,
             level_manager=self.level_manager,
-            characters=self.level_manager.get_current_level().characters,
+            characters=current_level.characters,
             game_state_manager=self.game_state_manager
         )
-        self.level_manager.get_current_level().game_objects = list(
-            filter(lambda o: o.get("data").get("health", 1) > 0, self.level_manager.get_current_level().game_objects)
+        # Удаляет все игровые объекты у которых health <= 0
+        current_level.game_objects = list(
+            filter(lambda o: o.get("data").get("health", 1) > 0, current_level.game_objects)
         )
 
         if self.player.inventory_opened:
-            Item.update_items(player=self.player, level=self.level_manager.levels.get(self.level_manager.current_level))
+            Item.update_items(player=self.player, level=current_level)
 
     def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:
         surface.fill("#0c0c1e")

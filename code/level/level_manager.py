@@ -1,10 +1,9 @@
 import pygame
 
 from pathlib import Path
-
+from .level import Level
 from camera import Camera
 from character import Player
-from .level import Level
 
 
 class LevelManager:
@@ -18,15 +17,15 @@ class LevelManager:
 
     def load_levels(self) -> None:
         self.levels.clear()
-        path: Path = Path("../resources/data/levels/")
 
+        path: Path = Path("../resources/data/levels/")
         for obj in path.iterdir():
             if not obj.is_file():
                 continue
 
             if obj.suffix == ".json":
                 self.levels.setdefault(
-                    obj.stem,
+                    obj.stem,  # Только название самого файла без расширения и пути к нему
                     Level(obj.stem, self.player, self.camera, self)
                 )
 

@@ -2,6 +2,7 @@ import pygame
 
 
 class Character:
+    """Базовый класс персонажа."""
     def __init__(self) -> None:
         self.health: float = 100
 
