@@ -9,12 +9,6 @@ class GameLoop:
         self.window = window
         self.game_state_manager = GameStateManager()
 
-    def event_loop(self) -> None:
-        Window.update_events()
-        for event in Window.events:
-            if event.type == pygame.QUIT:
-                Window.running = False
-
     def update(self) -> None:
         self.window.clock.tick(Window.FPS)  # Устанавливает FPS игры на значение Window.FPS
         self.game_state_manager.update()
@@ -29,8 +23,8 @@ class GameLoop:
 
     def run(self) -> None:
         while Window.running:
+            Window.update_events()
             self.update()
             self.draw()
-            self.event_loop()
 
         pygame.quit()

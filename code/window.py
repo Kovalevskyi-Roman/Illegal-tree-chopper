@@ -35,6 +35,10 @@ class Window:
     def update_events(cls) -> None:
         cls.events = tuple(pygame.event.get())
 
+        for event in cls.events:
+            if event.type == pygame.QUIT:
+                cls.running = False
+
     def clear(self, color: pygame.Color | pygame.typing.SequenceLike[int] | str | int) -> None:
         self.surface.fill(color)
         self.ui_surface.fill("#00000000")

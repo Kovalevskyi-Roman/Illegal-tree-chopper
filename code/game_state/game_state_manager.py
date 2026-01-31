@@ -5,6 +5,7 @@ from .menu_state import MenuState
 from .play_state import PlayState
 from .tool_shop import ToolShop
 from .item_shop import ItemShop
+from .death_screen import DeathScreenState
 
 from .editor import LevelList
 from .editor import Editor
@@ -18,6 +19,7 @@ class GameStateManager:
     PLAY_STATE = PlayState
     TOOL_SHOP_STATE = ToolShop
     ITEM_SHOP_STATE = ItemShop
+    DEATH_SCREEN_STATE = DeathScreenState
 
     LEVEL_LIST = LevelList
     EDITOR = Editor
@@ -29,6 +31,7 @@ class GameStateManager:
             self.PLAY_STATE: PlayState(self),
             self.TOOL_SHOP_STATE: ToolShop(self),
             self.ITEM_SHOP_STATE: ItemShop(self),
+            self.DEATH_SCREEN_STATE: DeathScreenState(self),
 
             self.LEVEL_LIST: LevelList(self),
             self.EDITOR: Editor(self),

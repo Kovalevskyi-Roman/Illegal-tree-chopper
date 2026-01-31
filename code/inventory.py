@@ -11,12 +11,20 @@ from item import Item
 class Inventory:
     def __init__(self) -> None:
         self.items: list[dict[str, int]] = list()  # [{item: int, count: int}, ...]
-        self.max_stack_count: int = 999
-        self.max_length: int = 15
+        self.max_stack_count: int = 999  # Максимальное количество предметов в одном слоте
+        self.max_length: int = 30
         self.width: int = 4  # количество слотов отрисовывающихся в одном ряду
 
         self.hovered_item: int = -1
         self.selected_item: int = -1
+
+    def restack(self) -> None:
+        """Обновляет максимальное количество предметов в одном слоте"""
+        items = self.items.copy()
+        self.items.clear()
+
+        for item in items:
+            self.add_item(item.get("item"), item.get("count"))
 
     def add_one_item(self, item_id: int) -> None:
         if item_id < 0 or item_id > len(Item.items):
@@ -128,12 +136,12 @@ class Inventory:
 
             if i == self.hovered_item:
                 pygame.draw.rect(
-                    surface, (255, 255, 255, 90), [position + offset,[ITEM_SIZE, ITEM_SIZE]]
+                    surface, (255, 255, 255, 90), [position + offset, [ITEM_SIZE, ITEM_SIZE]]
                 )
 
             if i == self.selected_item:
                 pygame.draw.rect(
-                    surface, (100, 255, 100, 150), [position + offset,[ITEM_SIZE, ITEM_SIZE]]
+                    surface, (100, 255, 100, 150), [position + offset, [ITEM_SIZE, ITEM_SIZE]]
                 )
 
             Item.draw(surface, self.items[i].get("item"), position + offset)

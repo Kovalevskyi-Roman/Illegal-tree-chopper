@@ -14,7 +14,7 @@ def main() -> None:
     pygame.display.set_caption("Симулятор нелегального лесоруба")
 
     TileManager.init()
-    GameObject.load_textures()
+    GameObject.init()
     Tool.init()
     Item.init()
 

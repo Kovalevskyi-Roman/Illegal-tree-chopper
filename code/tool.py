@@ -9,16 +9,20 @@ class Tool:
 
     @classmethod
     def init(cls) -> None:
-        with open("../resources/data/tools.json", "r", encoding="utf-8") as file:
-            cls.tools = json.load(file)
+        try:
+            with open("../resources/data/tools.json", "r", encoding="utf-8") as file:
+                cls.tools = json.load(file)
 
-        for tool in cls.tools:
-            tool["texture"] = pygame.image.load("../resources/textures/tools/" + tool.get("texture")).convert_alpha()
-            tool["texture"] = pygame.transform.scale2x(tool["texture"])
-            tool["texture"] = pygame.transform.rotate(tool["texture"], 90)
+            for tool in cls.tools:
+                tool["texture"] = pygame.image.load(f"../resources/textures/tools/{tool.get("texture")}").convert_alpha()
+                tool["texture"] = pygame.transform.scale2x(tool["texture"])
+                tool["texture"] = pygame.transform.rotate(tool["texture"], 90)
+
+        except FileNotFoundError:
+            print("ERROR: File 'tools.json' not found.")
 
     @classmethod
-    def damage(cls, index: int) -> int:
+    def damage(cls, index: int) -> int | float:
         return cls.tools[index].get("damage")
 
     @classmethod

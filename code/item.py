@@ -8,18 +8,22 @@ from common import ITEM_SIZE
 
 
 class Item:
-    items: list[dict[str, Any]]= list()
+    items: list[dict[str, Any]] = list()
 
     @classmethod
     def init(cls) -> None:
-        with open("../resources/data/items.json", "r", encoding="utf-8") as file:
-            cls.items = json.load(file)
+        try:
+            with open("../resources/data/items.json", "r", encoding="utf-8") as file:
+                cls.items = json.load(file)
 
-        for item in cls.items:
-            if not item["texture"]:
-                continue
-            item["texture"] = pygame.image.load("../resources/textures/items/" + item["texture"]).convert_alpha()
-            item["texture"] = pygame.transform.scale(item["texture"], [ITEM_SIZE, ITEM_SIZE])
+            for item in cls.items:
+                if not item["texture"]:
+                    continue
+                item["texture"] = pygame.image.load(f"../resources/textures/items/{item["texture"]}").convert_alpha()
+                item["texture"] = pygame.transform.scale(item["texture"], [ITEM_SIZE, ITEM_SIZE])
+
+        except FileNotFoundError:
+            print("ERROR: File 'items.json' not found.")
 
     @classmethod
     def can_use(cls, item_index: int) -> bool:
@@ -33,16 +37,25 @@ class Item:
         player.health += item.get("on_use").get("health", 0)
         player.temperature += item.get("on_use").get("temperature", 0)
 
-        if item.get("name").lower() == "саженец дерева":
-            kwargs.get("game_objects").append(
-                {
-                    "name": "sapling",
-                    "data": {
-                        "position": list(player.rect.topleft),
-                        "grow_time": randint(15, 50)
+        match item.get("name").lower():
+            case "саженец дерева":
+                player.trees_planted += 1
+                kwargs.get("game_objects").append(
+                    {
+                        "name": "sapling",
+                        "data": {
+                            "position": list(player.rect.topleft),
+                            "grow_time": randint(15, 50)
+                        }
                     }
-                }
-            )
+                )
+
+            case "улучшение инвентаря":
+                player.inventory.max_stack_count += 1
+                player.inventory.restack()
+
+            case "улучшение термозащиты":
+                player.cold_protection += 1
 
     @classmethod
     def update_items(cls, *args, **kwargs) -> None:
@@ -50,17 +63,17 @@ class Item:
             match item.get("name").lower():
                 case "телефон":
                     item["description"] = [
-                        f"Время: {int(common.game_time / 60)}:{round(common.game_time) % 60}",
+                        f"Время: {int(common.game_time / 60)}:{int(common.game_time) % 60}",
                         f"Деньги: {common.player_money}$"
                     ]
                 case "термометр":
                     temperature = kwargs.get("level").temperature
                     # Меняется ли температура на уровне при изменении игрового времени
                     if kwargs.get("level").colder_at_night:
-                        if common.game_time < 8 * 60:  # До 8 утра
+                        if common.game_time < 6 * 60:  # До 6 утра
                             temperature -= 40
-                        elif common.game_time < 12 * 60 or common.game_time > 18 * 60:  # До 12 дня или после 6 вечера
-                            temperature -= 20
+                        elif common.game_time < 10 * 60 or common.game_time > 19 * 60:  # До 10 утра или после 7 вечера
+                            temperature -= 30
 
                     item["description"] = [
                         "Температура:",

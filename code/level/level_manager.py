@@ -29,8 +29,6 @@ class LevelManager:
                     Level(obj.stem, self.player, self.camera, self)
                 )
 
-        print(f"Loaded {len(self.levels)} levels")
-
     def get_current_level(self) -> Level | None:
         return self.levels.get(self.current_level, None)
 

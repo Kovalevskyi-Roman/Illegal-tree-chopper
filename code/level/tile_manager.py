@@ -15,15 +15,19 @@ class TileManager:
 
     @classmethod
     def load_tiles(cls) -> None:
-        with open("../resources/data/tiles.json", "r") as file:
-            cls.tiles = tuple(json.load(file))
+        try:
+            with open("../resources/data/tiles.json", "r") as file:
+                cls.tiles = tuple(json.load(file))
 
-        tiles: list[pygame.Surface] = list()
-        for tile in cls.tiles:
-            tile_texture = pygame.image.load(f"../resources/textures/tiles/{tile}").convert_alpha()
-            tiles.append(tile_texture)
+            tiles: list[pygame.Surface] = list()
+            for tile in cls.tiles:
+                tile_texture = pygame.image.load(f"../resources/textures/tiles/{tile}").convert_alpha()
+                tiles.append(tile_texture)
 
-        cls.tile_textures = tuple(tiles)
+            cls.tile_textures = tuple(tiles)
+
+        except FileNotFoundError:
+            print("ERROR: File 'tiles.json' not found.")
 
     @classmethod
     def scale_textures_by(cls, factor: float | int) -> None:

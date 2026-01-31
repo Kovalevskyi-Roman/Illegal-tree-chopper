@@ -12,19 +12,21 @@ class GameObject:
     textures: dict[str, pygame.Surface] = dict()
 
     @classmethod
-    def load_textures(cls) -> None:
+    def init(cls) -> None:
         path: Path = Path("../resources/textures/game_objects/")
 
         for obj in path.iterdir():
             if not obj.is_file():
                 continue
 
+            texture = pygame.image.load(obj).convert()
             if obj.suffix == ".png":
                 texture = pygame.image.load(obj).convert_alpha()
-                cls.textures.setdefault(obj.stem, pygame.transform.scale(texture, (GAME_OBJECT_SIZE, GAME_OBJECT_SIZE)))
-            else:
-                texture = pygame.image.load(obj).convert()
-                cls.textures.setdefault(obj.stem, pygame.transform.scale(texture, (GAME_OBJECT_SIZE, GAME_OBJECT_SIZE)))
+
+            cls.textures.setdefault(
+                obj.stem,  # Имя файла
+                pygame.transform.scale(texture, (GAME_OBJECT_SIZE, GAME_OBJECT_SIZE))
+            )
 
     @classmethod
     def update(cls, game_object: dict[str, Any], *args, **kwargs) -> bool:

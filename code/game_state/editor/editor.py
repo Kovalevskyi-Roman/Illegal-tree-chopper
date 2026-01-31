@@ -43,19 +43,18 @@ class Editor(GameState):
         # Удаляет пустые рядки в tilemap
         self.tile_map.tiles = list(filter(lambda row: len(row) > 0, self.tile_map.tiles))
 
+        # Сохраняет уровень в файл
         content: dict | None = None
         with open(f"../resources/data/levels/{self.level_name}.json", "r") as file:
             content = json.load(file)
 
-        content["tile_map"] = self.tile_map.tiles
-        content["game_objects"] = self.game_objects
-
         with open(f"../resources/data/levels/{self.level_name}.json", "w") as file:
+            content["tile_map"] = self.tile_map.tiles
+            content["game_objects"] = self.game_objects
             json.dump(content, file, indent=4)
 
         # Обновляет данные о загруженных уровнях
         self.game_state_manager.GAME_STATES.get(self.game_state_manager.PLAY_STATE).level_manager.load_levels()
-        print(f"Level '{self.level_name}.json' saved")
 
     def update(self, *args, **kwargs) -> None:
         key_press = pygame.key.get_pressed()

@@ -11,4 +11,5 @@ FONT_24: pygame.Font = pygame.font.SysFont("Tahoma", 24)
 FONT_30: pygame.Font = pygame.font.SysFont("Tahoma", 30)
 
 game_time: float = 12 * 60  # Измеряется в секундах
-player_money: int = 0
+survived_days_count: int = 0
+player_money: int = 2000
