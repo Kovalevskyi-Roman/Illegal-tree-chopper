@@ -40,7 +40,7 @@ class Level:
         with open(f"../resources/data/levels/{self.file_name}.json", "r") as file:
             content = json.load(file)
 
-            self.temperature_range = content.get("temperature_range")
+            self.temperature_range = content.get("temperature_range", list([0, 0]))
             self.colder_at_night = content.get("colder_at_night")
             self.temperature = randint(self.temperature_range[0], self.temperature_range[1])
 
@@ -61,7 +61,8 @@ class Level:
             self.temperature = randint(*self.temperature_range)
             self.temperature_change_timer = 30
 
-        self.player.update(self.game_objects, self.camera.offset, self.temperature, self.colder_at_night)
+        self.player.update(self.game_objects, self.camera.offset,
+                           self.temperature, self.colder_at_night, self.level_manager)
 
         for character in self.characters:
             character.update(player=self.player)

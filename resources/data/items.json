@@ -11,13 +11,15 @@
         "name": "Телефон",
         "texture": "phone.png",
         "description": [""],
-        "on_use": null
+        "on_use": null,
+        "is_spend": false
     },
     {
         "name": "Термометр",
         "texture": "thermometer.png",
         "description": [""],
-        "on_use": null
+        "on_use": null,
+        "is_spend": false
     },
     {
         "name": "Водка",
@@ -56,6 +58,19 @@
         "description": [""],
         "on_use": {},
         "price": 10
+    },
+    {
+        "name": "Фотоаппарат",
+        "texture": "camera.png",
+        "description": [
+            "Этот фотоаппарат проклят.",
+            "Никогда не используй его.",
+            "(Но один раз для эксперимента",
+            "можно)"
+        ],
+        "on_use": {},
+        "is_spend": false,
+        "price": 1000
     },
     {
         "name": "Улучшение инвентаря",

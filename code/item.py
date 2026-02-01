@@ -30,9 +30,15 @@ class Item:
         return cls.items[item_index].get("on_use", None) is not None
 
     @classmethod
+    def is_spend(cls, item_index: int) -> bool:
+        return cls.items[item_index].get("is_spend", True)
+
+    @classmethod
     def use(cls, item_index: int, *args, **kwargs) -> None:
         item = cls.items[item_index]
         player = kwargs.get("player")
+        game_objects: list[dict] = kwargs.get("game_objects")
+        level_manager = kwargs.get("level_manager")
 
         player.health += item.get("on_use").get("health", 0)
         player.temperature += item.get("on_use").get("temperature", 0)
@@ -40,7 +46,7 @@ class Item:
         match item.get("name").lower():
             case "саженец дерева":
                 player.trees_planted += 1
-                kwargs.get("game_objects").append(
+                game_objects.append(
                     {
                         "name": "sapling",
                         "data": {
@@ -56,6 +62,12 @@ class Item:
 
             case "улучшение термозащиты":
                 player.cold_protection += 1
+
+            case "фотоаппарат":
+                player.inventory.selected_item = -1
+                player.rect.topleft = [144, 288]
+                level_manager.camera.set_offset()
+                level_manager.current_level = "backrooms"
 
     @classmethod
     def update_items(cls, *args, **kwargs) -> None:

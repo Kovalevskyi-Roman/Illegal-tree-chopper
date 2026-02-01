@@ -75,6 +75,7 @@ class Inventory:
             self.items.pop(index)
 
     def get_selected_item(self) -> dict[str, Any] | None:
+        """Если нет выбранного предмета возвращает None"""
         if self.selected_item == -1:
             return None
 

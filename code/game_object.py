@@ -3,6 +3,7 @@ import common
 
 from typing import Any
 from pathlib import Path
+from random import choice, randint
 from common import GAME_OBJECT_SIZE
 from character import Chest
 from window import Window
@@ -42,22 +43,32 @@ class GameObject:
         game_state_manager = kwargs.get("game_state_manager")
 
         game_object_name = game_object.get("name")
-        game_object_position = pygame.Vector2(game_object.get("data").get("position"))
+        game_object_data = game_object.get("data")
+        game_object_position = pygame.Vector2(game_object_data.get("position"))
         game_object_rect = pygame.Rect(game_object_position, [GAME_OBJECT_SIZE, GAME_OBJECT_SIZE])
 
-        if game_object_name == "door":
+        if "door" in game_object_name:
             if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
+                level_manager.current_level = game_object_data.get("go_to")
 
-                if game_object.get("data").get("player_position", None) is not None:
-                    player.rect.topleft = game_object.get("data").get("player_position")
+                if game_object_data.get("player_position", None) is not None:
+                    player.rect.topleft = game_object_data.get("player_position")
                     camera.set_offset()
 
-                level_manager.current_level = game_object.get("data").get("go_to")
+                if game_object_name == "random_door":
+                    game_object_data["position"] = choice(game_object_data["random_positions"])
+                    common.game_time += randint(-300, 300)
+                    if common.game_time < 0:
+                        common.game_time = 0
+
+                    if randint(0, 100) < game_object_data.get("exit_chance"):
+                        level_manager.current_level = game_object_data.get("exit_to")
+
                 return True
 
         elif game_object_name == "campfire":
             if pygame.Vector2(game_object_rect.center).distance_to(player.rect.center) <= GAME_OBJECT_SIZE:
-                player.temperature += game_object.get("data").get("heat")
+                player.temperature += game_object_data.get("heat")
 
         elif game_object_name == "bed":
             if player.rect.colliderect(game_object_rect):
@@ -92,8 +103,8 @@ class GameObject:
 
         elif game_object_name == "sapling":
             # Если саженец вырос, то он удаляет себя и добавляет дерево на своём месте
-            game_object.get("data")["grow_time"] -= Window.DELTA
-            if game_object.get("data")["grow_time"] <= 0:
+            game_object_data["grow_time"] -= Window.DELTA
+            if game_object_data["grow_time"] <= 0:
                 level_manager.get_current_level().game_objects.append(
                     {
                         "name": "spruce_tree",
@@ -103,7 +114,7 @@ class GameObject:
                         }
                     }
                 )
-                game_object.get("data")["health"] = 0
+                game_object_data["health"] = 0
 
         return False
 

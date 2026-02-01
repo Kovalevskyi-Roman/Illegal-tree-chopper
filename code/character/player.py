@@ -101,7 +101,7 @@ class Player(Character):
             self.__froze_texture.set_alpha(255)
 
     def update(self, game_objects: list[dict[str, Any]], offset: pygame.Vector2,
-               level_temperature: int, colder_at_night: bool) -> None:
+               level_temperature: int, colder_at_night: bool, level_manager: "LevelManager") -> None:
         keys: pygame.key.ScancodeWrapper = pygame.key.get_pressed()
 
         # Последнее направление движения игрока
@@ -128,13 +128,16 @@ class Player(Character):
         if self.inventory_opened:
             self.inventory.update([32, 32])
             # Может ли игрок использовать предмет
-            if self.inventory.selected_item != -1:
-                if Item.can_use(self.inventory.get_selected_item().get("item")):
-                    Item.use(
-                        self.inventory.get_selected_item().get("item"),
-                        player=self,
-                        game_objects=game_objects
-                    )
+            selected_item = self.inventory.get_selected_item()
+            if selected_item is not None and Item.can_use(selected_item.get("item")):
+                Item.use(
+                    selected_item.get("item"),
+                    player=self,
+                    game_objects=game_objects,
+                    level_manager=level_manager
+                )
+                # Потратится ли предмет при использовании
+                if Item.is_spend(selected_item.get("item")):
                     self.inventory.remove_by_index(self.inventory.selected_item)
 
         # Обновление позиции игрока

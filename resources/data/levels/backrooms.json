@@ -1,0 +1,163 @@
+{
+    "temperature_range": [
+        28,
+        28
+    ],
+    "tile_map": [
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+        ],
+        [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+        ]
+    ],
+    "game_objects": [
+        {
+            "name": "random_door",
+            "data": {
+                "position": [
+                    0.0,
+                    144.0
+                ],
+                "player_position": [
+                    144,
+                    288
+                ],
+                "go_to": "backrooms",
+                "exit_chance": 5,
+                "exit_to": "home",
+                "random_positions": [
+                    [
+                        0,
+                        144
+                    ],
+                    [
+                        144,
+                        0
+                    ],
+                    [
+                        288,
+                        144
+                    ]
+                ]
+            }
+        },
+        {
+            "name": "random_door",
+            "data": {
+                "position": [
+                    144.0,
+                    0.0
+                ],
+                "player_position": [
+                    144,
+                    288
+                ],
+                "go_to": "backrooms",
+                "exit_chance": 5,
+                "exit_to": "home",
+                "random_positions": [
+                    [
+                        0,
+                        144
+                    ],
+                    [
+                        144,
+                        0
+                    ],
+                    [
+                        288,
+                        144
+                    ]
+                ]
+            }
+        },
+        {
+            "name": "random_door",
+            "data": {
+                "position": [
+                    288.0,
+                    144.0
+                ],
+                "player_position": [
+                    144,
+                    288
+                ],
+                "go_to": "backrooms",
+                "exit_chance": 5,
+                "exit_to": "home",
+                "random_positions": [
+                    [
+                        0,
+                        144
+                    ],
+                    [
+                        144,
+                        0
+                    ],
+                    [
+                        288,
+                        144
+                    ]
+                ]
+            }
+        }
+    ]
+}
