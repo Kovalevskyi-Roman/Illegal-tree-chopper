@@ -81,7 +81,7 @@
                     288
                 ],
                 "go_to": "backrooms",
-                "exit_chance": 5,
+                "exit_chance": 2,
                 "exit_to": "home",
                 "random_positions": [
                     [
@@ -111,7 +111,7 @@
                     288
                 ],
                 "go_to": "backrooms",
-                "exit_chance": 5,
+                "exit_chance": 2,
                 "exit_to": "home",
                 "random_positions": [
                     [
@@ -141,7 +141,7 @@
                     288
                 ],
                 "go_to": "backrooms",
-                "exit_chance": 5,
+                "exit_chance": 2,
                 "exit_to": "home",
                 "random_positions": [
                     [

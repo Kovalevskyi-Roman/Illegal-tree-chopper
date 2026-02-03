@@ -4,19 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="death screen and small improvements">
-      <change afterPath="$PROJECT_DIR$/resources/data/levels/backrooms.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/game_objects/random_door.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/items/camera.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/tiles/sandstone.png" afterDir="false" />
+    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="backrooms level">
+      <change afterPath="$PROJECT_DIR$/code/character/police_man.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/characters/chest.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/textures/tiles/bricks.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/character/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/character/character.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/character.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/character/chest.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/chest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/character/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/game_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_object.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/inventory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/item.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/level/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/level/level_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/levels/backrooms.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/backrooms.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/levels/street.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/street.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/data/tiles.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/tiles.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/tools.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/tools.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/textures/tools/machine.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,16 +55,17 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/root/Python/pygame/Симулятор нелегального лесоруба/resources/textures/game_objects",
+    "last_opened_file_path": "D:/root/Python/pygame/Симулятор нелегального лесоруба/resources/textures/tiles",
     "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\tiles" />
+      <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\characters" />
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\game_objects" />
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\items" />
-      <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\tiles" />
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -196,7 +200,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769872237725</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="backrooms level">
+      <option name="closed" value="true" />
+      <created>1769976303381</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1769976303381</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -221,6 +233,7 @@
     <MESSAGE value="playable version v1.0.0" />
     <MESSAGE value="small improvements and documentation" />
     <MESSAGE value="death screen and small improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="death screen and small improvements" />
+    <MESSAGE value="backrooms level" />
+    <option name="LAST_COMMIT_MESSAGE" value="backrooms level" />
   </component>
 </project>

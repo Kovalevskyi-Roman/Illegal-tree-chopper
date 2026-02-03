@@ -13,7 +13,7 @@ from inventory import Inventory
 
 
 class Player(Character):
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__()
 
         self.rect.x = 480
@@ -21,6 +21,7 @@ class Player(Character):
         self.move_speed: float = 4
         self.last_direction: pygame.Vector2 = pygame.Vector2(0, 0)
         self.in_bed: bool = False
+        self.in_chest: bool = False
 
         self.cold_protection: float = 1
         self.temperature: float = 36
@@ -129,7 +130,7 @@ class Player(Character):
             self.inventory.update([32, 32])
             # Может ли игрок использовать предмет
             selected_item = self.inventory.get_selected_item()
-            if selected_item is not None and Item.can_use(selected_item.get("item")):
+            if selected_item is not None and Item.can_use(selected_item.get("item")) and not self.in_chest:
                 Item.use(
                     selected_item.get("item"),
                     player=self,

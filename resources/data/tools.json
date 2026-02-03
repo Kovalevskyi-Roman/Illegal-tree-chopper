@@ -61,14 +61,5 @@
         "cool_down": 0.70,
 
         "price": 7000
-    },
-    {
-        "name": "'Эко ненавистник'",
-        "texture": "machine.png",
-        "damage": 30,
-        "range": 60,
-        "cool_down": 0.25,
-
-        "price": 25000
     }
 ]

@@ -29,19 +29,15 @@ class LevelManager:
                     Level(obj.stem, self.player, self.camera, self)
                 )
 
-    def get_current_level(self) -> Level | None:
-        return self.levels.get(self.current_level, None)
+    def get_current_level(self) -> Level:
+        level = self.levels.get(self.current_level, None)
+        if level is None:
+            raise ValueError(f"Level {self.current_level} does not exist!")
+
+        return level
 
     def update_level(self) -> None:
-        level = self.levels.get(self.current_level, None)
-        if level is None:
-            raise ValueError(f"Level {self.current_level} does not exist!")
-
-        level.update()
+        self.get_current_level().update()
 
     def draw_level(self, surface: pygame.Surface) -> None:
-        level = self.levels.get(self.current_level, None)
-        if level is None:
-            raise ValueError(f"Level {self.current_level} does not exist!")
-
-        level.draw(surface)
+        self.get_current_level().draw(surface)

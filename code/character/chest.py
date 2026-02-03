@@ -8,7 +8,7 @@ from inventory import Inventory
 
 
 class Chest(Character):
-    def __init__(self):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__()
 
         self.rect.width = GAME_OBJECT_SIZE
@@ -19,7 +19,7 @@ class Chest(Character):
         self.inventory_opened: bool = False
         self.inventory_position: tuple[int, int] = (274, 32)
 
-        self.texture = pygame.image.load("../resources/textures/game_objects/chest.png").convert_alpha()
+        self.texture = pygame.image.load("../resources/textures/characters/chest.png").convert_alpha()
         self.texture = pygame.transform.scale(self.texture, self.rect.size)
 
     def from_game_object(self, game_object: dict[str, Any]) -> None:
@@ -40,13 +40,16 @@ class Chest(Character):
         # Если инвентари игрока не открыт, то сундук не обновляется
         if not player.inventory_opened:
             self.inventory_opened = False
+            player.in_chest = False
             return
         # Если игрок не подошёл к сундуку, то он не обновляется
         if not self.rect.colliderect(player.rect):
             self.inventory_opened = False
+            player.in_chest = False
             return
 
         self.inventory_opened = True
+        player.in_chest = True
         self.inventory.update(self.inventory_position)
 
         # Перемещает выбранный предмет из инвентаря игрока в сундук

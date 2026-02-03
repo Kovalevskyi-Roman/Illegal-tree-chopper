@@ -5,7 +5,7 @@ from typing import Any
 from random import randint
 from .tile_map import TileMap
 from camera import Camera
-from character import Player, Character
+from character import Character, Player, character_factory
 from game_object import GameObject
 from window import Window
 
@@ -33,6 +33,12 @@ class Level:
         with open(f"../resources/data/levels/{file_name}.json", "r") as file:
             return json.load(file).get("game_objects")
 
+    def load_characters(self, content: dict[str, Any]) -> None:
+        characters = content.get("characters", list())
+
+        for character in characters:
+            self.characters.append(character_factory(character))
+
     def load_level(self) -> None:
         self.tile_map = TileMap(self.file_name)
         self.game_objects = self.load_game_objects(self.file_name)
@@ -40,6 +46,7 @@ class Level:
         with open(f"../resources/data/levels/{self.file_name}.json", "r") as file:
             content = json.load(file)
 
+            self.load_characters(content)
             self.temperature_range = content.get("temperature_range", list([0, 0]))
             self.colder_at_night = content.get("colder_at_night")
             self.temperature = randint(self.temperature_range[0], self.temperature_range[1])
@@ -65,7 +72,16 @@ class Level:
                            self.temperature, self.colder_at_night, self.level_manager)
 
         for character in self.characters:
-            character.update(player=self.player)
+            character.update(player=self.player, level_manager=self.level_manager)
+
+            if character.rect.x < 0:
+                character.rect.x = 0
+            if character.rect.y < 0:
+                character.rect.y = 0
+            if character.rect.right > self.tile_map.width:
+                character.rect.right = self.tile_map.width
+            if character.rect.bottom > self.tile_map.height:
+                character.rect.bottom = self.tile_map.height
 
         # Границы уровня
         if self.player.rect.x < 0:

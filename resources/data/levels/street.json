@@ -3,6 +3,16 @@
         -40,
         0
     ],
+    "characters": [
+        {
+            "name": "police_man",
+            "position": [500, 400]
+        },
+        {
+            "name": "police_man",
+            "position": [550, 500]
+        }
+    ],
     "colder_at_night": true,
     "tile_map": [
         [
