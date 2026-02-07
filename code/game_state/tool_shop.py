@@ -69,8 +69,8 @@ class ToolShop(GameState):
             tool = Tool.tools[i]
             # Покупка инструмента
             if pygame.mouse.get_just_pressed()[0] and tool_rect.collidepoint(pygame.mouse.get_pos()) and \
-                    common.player_money >= tool.get("price"):
-                common.player_money -= tool.get("price")
+                    self.__player.money >= tool.get("price"):
+                self.__player.money  -= tool.get("price")
                 tool["price"] = 0
                 self.__player.tool = i
                 break
@@ -92,6 +92,6 @@ class ToolShop(GameState):
 
         self.caption.draw(Window.ui_surface, [-1, 8])
         Window.ui_surface.blit(
-            common.FONT_24.render(f"Деньги: {common.player_money}$", True, "#ffffff"),
+            common.FONT_24.render(f"Деньги: {self.__player.money}$", True, "#ffffff"),
             [8, 8]
         )

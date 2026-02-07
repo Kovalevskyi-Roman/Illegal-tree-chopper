@@ -27,7 +27,7 @@ class PlayState(GameState):
 
         # Обновление игрового времени
         common.game_time += Window.DELTA
-        if common.game_time >= 24 * 60:
+        if common.game_time < 0 or common.game_time >= 24 * 60:
             common.game_time = 0
             common.survived_days_count += 1
 

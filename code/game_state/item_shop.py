@@ -34,9 +34,9 @@ class ItemShop(GameState):
             item = Item.items[i]
             # Покупка предмета
             if pygame.mouse.get_just_pressed()[0] and item_rect.collidepoint(pygame.mouse.get_pos()) and \
-                    common.player_money >= item.get("price"):
+                    self.__player.money >= item.get("price"):
                 self.__player.inventory.add_one_item(i)
-                common.player_money -= item.get("price")
+                self.__player.money -= item.get("price")
                 break
 
             elif item_rect.collidepoint(pygame.mouse.get_pos()):
@@ -51,7 +51,7 @@ class ItemShop(GameState):
     def draw(self, surface: pygame.Surface, *args, **kwargs) -> None:
         self.__caption.draw(Window.ui_surface, [-1, 8])
         Window.ui_surface.blit(
-            common.FONT_24.render(f"Деньги: {common.player_money}$", True, "#ffffff"),
+            common.FONT_24.render(f"Деньги: {self.__player.money}$", True, "#ffffff"),
             [8, 8]
         )
 

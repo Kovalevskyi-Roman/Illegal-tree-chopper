@@ -4,22 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="backrooms level">
-      <change afterPath="$PROJECT_DIR$/code/character/police_man.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/characters/chest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/textures/tiles/bricks.png" afterDir="false" />
+    <list default="true" id="454340c1-3611-4475-b750-e1f22c63200a" name="Changes" comment="police man">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/character/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/character/character.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/character.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/character/chest.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/chest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/character/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/character/police_man.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/character/police_man.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_state/editor/editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/editor/editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/game_state/play_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/game_state/play_state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/level/level.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/level/level_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/code/level/level_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/levels/backrooms.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/backrooms.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/data/levels/home.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/home.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/data/levels/street.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/levels/street.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/tiles.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/tiles.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/data/tools.json" beforeDir="false" afterPath="$PROJECT_DIR$/resources/data/tools.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/textures/tools/machine.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +30,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Kovalevskyi-Roman&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Kovalevskyi-Roman/Illegal-tree-chopper.git&quot;,
+    &quot;accountId&quot;: &quot;de5ea02a-7a48-4b8f-b3dd-3f6b4a92e53d&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -47,19 +53,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/root/Python/pygame/Симулятор нелегального лесоруба/resources/textures/tiles",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/root/Python/pygame/Симулятор нелегального лесоруба/resources/textures/tiles&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\root\Python\pygame\Симулятор нелегального лесоруба\resources\textures\tiles" />
@@ -208,7 +214,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769976303381</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="police man">
+      <option name="closed" value="true" />
+      <created>1770155414518</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1770155414518</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -234,6 +248,7 @@
     <MESSAGE value="small improvements and documentation" />
     <MESSAGE value="death screen and small improvements" />
     <MESSAGE value="backrooms level" />
-    <option name="LAST_COMMIT_MESSAGE" value="backrooms level" />
+    <MESSAGE value="police man" />
+    <option name="LAST_COMMIT_MESSAGE" value="police man" />
   </component>
 </project>

@@ -1,13 +1,12 @@
 import pygame
 
+from typing import Any
 from .character import Character
 
 
 class PoliceMan(Character):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__()
-
-        self.rect.topleft = args[0].get("position")
 
         self.move_speed: float = 4
         self.texture = pygame.Surface(self.rect.size)
@@ -18,10 +17,12 @@ class PoliceMan(Character):
         self.stamina: float = self.MAX_STAMINA
         self.is_tired: bool = False
 
-    def update(self, *args, **kwargs) -> None:
-        player = kwargs.get("player")
-        level_manager = kwargs.get("level_manager")
+        self.from_game_object(args[0])
 
+    def from_game_object(self, game_object: dict[str, Any]) -> None:
+        self.rect.topleft = game_object.get("data").get("position")
+
+    def update(self, player, level_manager, *args, **kwargs) -> None:
         if self.rect.colliderect(player.rect):
             level_manager.current_level = "prison"
             return

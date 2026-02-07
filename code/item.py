@@ -76,21 +76,13 @@ class Item:
                 case "телефон":
                     item["description"] = [
                         f"Время: {int(common.game_time / 60)}:{int(common.game_time) % 60}",
-                        f"Деньги: {common.player_money}$"
+                        f"Деньги: {kwargs.get("player").money}$"
                     ]
                 case "термометр":
-                    temperature = kwargs.get("level").temperature
-                    # Меняется ли температура на уровне при изменении игрового времени
-                    if kwargs.get("level").colder_at_night:
-                        if common.game_time < 6 * 60:  # До 6 утра
-                            temperature -= 40
-                        elif common.game_time < 10 * 60 or common.game_time > 19 * 60:  # До 10 утра или после 7 вечера
-                            temperature -= 30
-
                     item["description"] = [
                         "Температура:",
                         f"    Тела: {kwargs.get("player").temperature:.1f}",
-                        f"    Локации: {temperature:.1f}"
+                        f"    Локации: {kwargs.get("level").temperature:.1f}"
                     ]
 
     @classmethod

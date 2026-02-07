@@ -350,6 +350,7 @@
         },
         {
             "name": "chest",
+            "is_character": true,
             "data": {
                 "position": [
                     192.0,

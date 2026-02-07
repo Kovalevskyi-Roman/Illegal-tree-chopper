@@ -5,7 +5,7 @@ from typing import Any
 from pathlib import Path
 from random import choice, randint
 from common import GAME_OBJECT_SIZE
-from character import Chest
+from character import character_factory
 from window import Window
 
 
@@ -44,64 +44,17 @@ class GameObject:
 
         game_object_name = game_object.get("name")
         game_object_data = game_object.get("data")
+        is_character: bool = game_object.get("is_character", False)
         game_object_position = pygame.Vector2(game_object_data.get("position"))
         game_object_rect = pygame.Rect(game_object_position, [GAME_OBJECT_SIZE, GAME_OBJECT_SIZE])
 
-        if "door" in game_object_name:
-            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
-                level_manager.current_level = game_object_data.get("go_to")
-
-                if game_object_data.get("player_position", None) is not None:
-                    player.rect.topleft = game_object_data.get("player_position")
-                    camera.set_offset()
-
-                if game_object_name == "random_door":
-                    game_object_data["position"] = choice(game_object_data["random_positions"])
-                    common.game_time += randint(-300, 300)
-                    if common.game_time < 0:
-                        common.game_time = 0
-
-                    if randint(0, 100) < game_object_data.get("exit_chance"):
-                        level_manager.current_level = game_object_data.get("exit_to")
-
-                return True
-
-        elif game_object_name == "campfire":
-            if pygame.Vector2(game_object_rect.center).distance_to(player.rect.center) <= GAME_OBJECT_SIZE:
-                player.temperature += game_object_data.get("heat")
-
-        elif game_object_name == "bed":
-            if player.rect.colliderect(game_object_rect):
-                if pygame.key.get_just_pressed()[pygame.K_e]:
-                    player.in_bed = not player.in_bed
-
-                if player.in_bed:
-                    player.direction = pygame.Vector2(0, 0)
-                    common.game_time += 0.25
-
-        elif game_object_name == "chest":
-            # Сундук превращается из game_object-а в character-а.
-            chest = Chest()
-            chest.from_game_object(game_object)
-            characters.append(chest)
+        if is_character:
+            # Превращает game_object в character
+            characters.append(character_factory(game_object))
             game_object["data"]["health"] = 0
+            return False
 
-        elif game_object_name == "tool_shop":
-            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
-                game_state_manager.change_state(game_state_manager.TOOL_SHOP_STATE)
-                return True
-
-        elif game_object_name == "item_shop":
-            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
-                game_state_manager.change_state(game_state_manager.ITEM_SHOP_STATE)
-                return True
-
-        elif game_object_name == "selling":
-            if player.rect.colliderect(game_object_rect) and pygame.key.get_just_pressed()[pygame.K_e]:
-                while player.inventory.remove_one_item(0):
-                    common.player_money += 5
-
-        elif game_object_name == "sapling":
+        if game_object_name == "sapling":
             # Если саженец вырос, то он удаляет себя и добавляет дерево на своём месте
             game_object_data["grow_time"] -= Window.DELTA
             if game_object_data["grow_time"] <= 0:
@@ -115,6 +68,47 @@ class GameObject:
                     }
                 )
                 game_object_data["health"] = 0
+            return False
+
+        if not player.rect.colliderect(game_object_rect):
+            return False
+
+        if game_object_name == "campfire":
+            player.temperature += game_object_data.get("heat")
+            return False
+
+        if not pygame.key.get_just_pressed()[pygame.K_e]:
+            return False
+
+        if "door" in game_object_name:
+            level_manager.current_level = game_object_data.get("go_to")
+            if game_object_data.get("player_position", None) is not None:
+                player.rect.topleft = game_object_data.get("player_position")
+                camera.set_offset()
+
+            if game_object_name == "random_door":
+                game_object_data["position"] = choice(game_object_data["random_positions"])
+                common.game_time += randint(-300, 300)
+
+                if randint(0, 100) < game_object_data.get("exit_chance"):
+                    level_manager.current_level = game_object_data.get("exit_to")
+
+            return True
+
+        elif game_object_name == "bed":
+            player.in_bed = not player.in_bed
+
+        elif game_object_name == "tool_shop":
+            game_state_manager.change_state(game_state_manager.TOOL_SHOP_STATE)
+            return True
+
+        elif game_object_name == "item_shop":
+            game_state_manager.change_state(game_state_manager.ITEM_SHOP_STATE)
+            return True
+
+        elif game_object_name == "selling":
+            while player.inventory.remove_one_item(0):
+                player.money += 5
 
         return False
 
@@ -122,7 +116,7 @@ class GameObject:
     def update_objects(cls, game_objects: list[dict[str, Any]], *args, **kwargs) -> None:
         """
         Обновляет все игровые объекты на текущем уровне.
-        Если cls.update() возвращает True то все следующие объекты не обновляются.
+        Если cls.update() возвращает True, то все следующие объекты не обновляются.
         """
         for game_object in game_objects:
             if cls.update(game_object, *args, **kwargs):
@@ -138,6 +132,5 @@ class GameObject:
                 screen_position.y < -GAME_OBJECT_SIZE or screen_position.y > Window.SIZE[1]:
             return
 
-        texture = cls.textures.get(game_object.get("name"), None)
-        if texture is not None:
-            surface.blit(texture, screen_position)
+        texture = cls.textures.get(game_object.get("name"), cls.textures.get("null"))
+        surface.blit(texture, screen_position)

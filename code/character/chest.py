@@ -22,6 +22,8 @@ class Chest(Character):
         self.texture = pygame.image.load("../resources/textures/characters/chest.png").convert_alpha()
         self.texture = pygame.transform.scale(self.texture, self.rect.size)
 
+        self.from_game_object(args[0])
+
     def from_game_object(self, game_object: dict[str, Any]) -> None:
         self.rect.topleft = game_object.get("data").get("position")
         self.inventory.items = game_object.get("data").get("items")
@@ -35,8 +37,7 @@ class Chest(Character):
             }
         }
 
-    def update(self, *args, **kwargs) -> None:
-        player = kwargs.get("player")
+    def update(self, player, *args, **kwargs) -> None:
         # Если инвентари игрока не открыт, то сундук не обновляется
         if not player.inventory_opened:
             self.inventory_opened = False

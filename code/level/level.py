@@ -3,9 +3,11 @@ import pygame
 
 from typing import Any
 from random import randint
+
+import common
 from .tile_map import TileMap
 from camera import Camera
-from character import Character, Player, character_factory
+from character import Character, Player
 from game_object import GameObject
 from window import Window
 
@@ -28,25 +30,18 @@ class Level:
         self.load_level()
 
     @classmethod
-    def load_game_objects(cls, file_name: str) -> list[dict[str, Any]]:
+    def get_game_objects(cls, file_name: str) -> list[dict[str, Any]]:
         """Возвращает список всех игровых объектов на уровне 'file_name'."""
         with open(f"../resources/data/levels/{file_name}.json", "r") as file:
             return json.load(file).get("game_objects")
 
-    def load_characters(self, content: dict[str, Any]) -> None:
-        characters = content.get("characters", list())
-
-        for character in characters:
-            self.characters.append(character_factory(character))
-
     def load_level(self) -> None:
         self.tile_map = TileMap(self.file_name)
-        self.game_objects = self.load_game_objects(self.file_name)
+        self.game_objects = self.get_game_objects(self.file_name)
 
         with open(f"../resources/data/levels/{self.file_name}.json", "r") as file:
             content = json.load(file)
 
-            self.load_characters(content)
             self.temperature_range = content.get("temperature_range", list([0, 0]))
             self.colder_at_night = content.get("colder_at_night")
             self.temperature = randint(self.temperature_range[0], self.temperature_range[1])
@@ -62,18 +57,25 @@ class Level:
             GameObject.draw(surface, game_object, self.camera.offset)
 
     def update(self) -> None:
-        # Обновляет температуру каждые 30 секунд
+        # Обновляет температуру каждые 20 секунд
         self.temperature_change_timer -= Window.DELTA
         if self.temperature_change_timer <= 0:
             self.temperature = randint(*self.temperature_range)
-            self.temperature_change_timer = 30
+            self.temperature_change_timer = 20
+            # Меняется ли температура на уровне при изменении игрового времени
+            if self.colder_at_night:
+                if common.game_time < 6 * 60:  # До 6 утра
+                    self.temperature -= 40
+                elif common.game_time < 10 * 60 or common.game_time > 19 * 60:  # До 10 утра или после 7 вечера
+                    self.temperature -= 30
 
-        self.player.update(self.game_objects, self.camera.offset,
-                           self.temperature, self.colder_at_night, self.level_manager)
+        self.player.update(self.game_objects, self.camera.offset, self.temperature,
+                           self.colder_at_night, self.level_manager)
 
         for character in self.characters:
             character.update(player=self.player, level_manager=self.level_manager)
 
+        # Границы уровня
             if character.rect.x < 0:
                 character.rect.x = 0
             if character.rect.y < 0:
@@ -83,7 +85,6 @@ class Level:
             if character.rect.bottom > self.tile_map.height:
                 character.rect.bottom = self.tile_map.height
 
-        # Границы уровня
         if self.player.rect.x < 0:
             self.player.rect.x = 0
         if self.player.rect.y < 0:

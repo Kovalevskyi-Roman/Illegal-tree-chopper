@@ -31,7 +31,7 @@ class Editor(GameState):
     def init(self, level_name: str):
         self.level_name = level_name
         self.tile_map = TileMap(self.level_name)
-        self.game_objects = Level.load_game_objects(self.level_name)
+        self.game_objects = Level.get_game_objects(self.level_name)
         self.offset = pygame.math.Vector2(0, 0)
         self.selected_tile: int = 0
         self.selected_game_object: int = -1
